@@ -1,0 +1,270 @@
+/* ---------- Spot the Risk ---------- */
+
+.risk {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(0.5rem, 1.5vh, 1rem);
+  width: 100%;
+  min-height: 0;
+  padding: clamp(0.5rem, 1.5vh, 1.25rem) var(--gutter) clamp(0.75rem, 2vh, 1.5rem);
+}
+
+.risk__time {
+  font-variant-numeric: tabular-nums;
+}
+
+.risk__time--hurry {
+  color: var(--color-bad);
+}
+
+/* Drains as the round runs out; red for the last seconds. */
+.risk__timer {
+  flex: none;
+  width: 100%;
+  height: clamp(8px, 1.2vh, 14px);
+  overflow: hidden;
+  border-radius: 999px;
+  background: var(--color-border);
+}
+
+.risk__timer-fill {
+  height: 100%;
+  border-radius: inherit;
+  background: var(--color-accent);
+  transform-origin: left;
+}
+
+.risk__timer-fill--hurry {
+  background: var(--color-bad);
+}
+
+/* The scene fills whatever room is left, at its own 16:9 shape. */
+.risk__stage {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  display: grid;
+  place-items: center;
+  container-type: size;
+}
+
+.risk__scene {
+  display: block;
+  width: min(100cqw, 177.78cqh);
+  aspect-ratio: 16 / 9;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card-small);
+  cursor: crosshair;
+  touch-action: none;
+  font-family: var(--font-sans);
+}
+
+.risk__tipbar {
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* Room for a two-line tip, so the scene above doesn't jump when one appears. */
+  min-height: calc(2 * 1.3em + 1.2em + 6px);
+  padding: 0.6em 1.1em;
+  border: 3px solid transparent;
+  border-radius: var(--radius-md);
+  font-size: var(--text-md);
+  line-height: 1.3;
+  color: var(--color-text-muted);
+  text-align: center;
+}
+
+.risk__tipbar--found {
+  border-color: var(--color-good);
+  background: var(--color-bg-raised);
+  color: var(--color-text);
+}
+
+.risk__tip {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5em;
+  max-width: 70rem;
+  text-align: left;
+  animation: pop-in 180ms ease-out;
+}
+
+.risk__tip .icon {
+  margin-top: 0.15em;
+  color: var(--color-good);
+}
+
+.risk__over {
+  position: absolute;
+  top: 1rem;
+  left: 50%;
+  padding: 0.3em 1.2em;
+  border-radius: 999px;
+  background: var(--color-bg-raised);
+  box-shadow: var(--shadow-card-small);
+  font-size: var(--text-xl);
+  font-weight: 800;
+  pointer-events: none;
+  transform: translateX(-50%);
+}
+
+/* ---------- Markers on the scene ---------- */
+
+.risk-mark {
+  --mark: var(--color-good);
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: pop-in 200ms ease-out;
+}
+
+.risk-mark--missed {
+  --mark: var(--color-bad);
+}
+
+.risk-mark__ring {
+  fill: color-mix(in srgb, var(--mark) 14%, transparent);
+  stroke: var(--mark);
+  stroke-width: 8;
+}
+
+.risk-mark--missed .risk-mark__ring {
+  stroke-dasharray: 18 12;
+}
+
+.risk-mark__badge {
+  fill: var(--mark);
+  stroke: #ffffff;
+  stroke-width: 4;
+}
+
+.risk-mark__icon {
+  fill: none;
+  stroke: #ffffff;
+  stroke-width: 6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.risk-miss__bg {
+  fill: var(--color-bad);
+  stroke: #ffffff;
+  stroke-width: 4;
+}
+
+.risk-miss__icon {
+  fill: none;
+  stroke: #ffffff;
+  stroke-width: 6;
+  stroke-linecap: round;
+}
+
+.risk-miss__text {
+  fill: var(--color-bad);
+  stroke: #ffffff;
+  stroke-width: 6;
+  paint-order: stroke;
+  font-size: 34px;
+  font-weight: 800;
+}
+
+/* ---------- Lessons: a close-up of each risk ---------- */
+
+.risk-closeup {
+  display: block;
+  width: min(100%, 22rem);
+  aspect-ratio: 5 / 3;
+  border-radius: var(--radius-md);
+  font-family: var(--font-sans);
+}
+
+/* ---------- The office art ---------- */
+
+.scene-art text {
+  font-family: var(--font-sans);
+}
+
+.sc-bold {
+  font-weight: 800;
+}
+
+.sc-wall { fill: var(--scene-wall); }
+.sc-wall-shade { fill: var(--scene-wall-shade); }
+.sc-floor { fill: var(--scene-floor); }
+.sc-skirting { fill: var(--scene-skirting); }
+.sc-sky { fill: var(--scene-sky); }
+.sc-city { fill: var(--scene-city); }
+.sc-frame { fill: var(--scene-frame); }
+.sc-wood { fill: var(--scene-wood); }
+.sc-wood-dark { fill: var(--scene-wood-dark); }
+.sc-metal { fill: var(--scene-metal); }
+.sc-metal-dark { fill: var(--scene-metal-dark); }
+.sc-plastic { fill: var(--scene-plastic); }
+.sc-screen { fill: var(--scene-screen); }
+.sc-app { fill: var(--scene-screen-app); }
+.sc-app-selected { fill: var(--scene-app-selected); }
+.sc-app-line { fill: var(--scene-metal); }
+.sc-lock { fill: var(--scene-lock); }
+.sc-on-screen { fill: var(--scene-paper); }
+.sc-ink { fill: var(--scene-ink); }
+.sc-ink-blue { fill: var(--scene-ink-blue); }
+.sc-ink-red { fill: var(--scene-ink-red); }
+.sc-sticky { fill: var(--scene-sticky); }
+.sc-sticky-band { fill: var(--scene-sticky-band); }
+.sc-paper { fill: var(--scene-paper); }
+.sc-paper-fill { fill: var(--scene-paper-line); }
+.sc-accent { fill: var(--scene-accent); }
+.sc-green { fill: var(--scene-green); }
+.sc-green-dark { fill: var(--scene-green-dark); }
+.sc-pot { fill: var(--scene-pot); }
+.sc-chair { fill: var(--scene-chair); }
+.sc-chair-dark { fill: var(--scene-chair-dark); }
+.sc-rack { fill: var(--scene-rack); }
+.sc-led { fill: var(--scene-led); }
+.sc-led--dim { fill: var(--scene-wedge); }
+.sc-wedge { fill: var(--scene-wedge); stroke: var(--scene-ink); stroke-width: 3; stroke-linejoin: round; }
+.sc-bin { fill: var(--scene-bin); }
+.sc-bin-dark { fill: var(--scene-bin-dark); }
+.sc-on-bin { fill: var(--scene-paper); }
+.sc-badge { fill: var(--scene-badge); }
+.sc-usb { fill: var(--scene-usb); }
+.sc-mug { fill: var(--scene-mug); }
+.sc-shadow { fill: var(--scene-shadow); }
+.sc-sign { stroke: var(--scene-ink-red); stroke-width: 3; }
+.sc-outline { stroke: var(--scene-metal); stroke-width: 2; }
+.sc-outline-dark { stroke: var(--scene-metal-dark); stroke-width: 2; }
+
+.sc-floor-line,
+.sc-rack-line,
+.sc-drawer-line,
+.sc-paper-line,
+.sc-marker-blue,
+.sc-marker-red,
+.sc-hand,
+.sc-shackle,
+.sc-mug-handle,
+.sc-lanyard,
+.sc-stamp,
+.sc-usb-ring,
+.sc-chair-base {
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.sc-floor-line { stroke: var(--scene-floor-line); stroke-width: 3; }
+.sc-rack-line { stroke: var(--scene-metal-dark); stroke-width: 2; }
+.sc-drawer-line { stroke: var(--scene-wood); stroke-width: 3; }
+.sc-paper-line { stroke: var(--scene-paper-line); stroke-width: 4; }
+.sc-marker-blue { stroke: var(--scene-ink-blue); stroke-width: 4; }
+.sc-marker-red { stroke: var(--scene-ink-red); stroke-width: 4; }
+.sc-hand { stroke: var(--scene-ink); stroke-width: 4; }
+.sc-hand--thick { stroke-width: 6; }
+.sc-shackle { stroke: var(--scene-paper); stroke-width: 7; }
+.sc-shackle--thin { stroke-width: 6; }
+.sc-mug-handle { stroke: var(--scene-mug); stroke-width: 6; }
+.sc-lanyard { stroke: var(--scene-accent); stroke-width: 5; }
+.sc-stamp { stroke: var(--scene-ink-red); stroke-width: 2.5; }
+.sc-usb-ring { stroke: var(--scene-metal-dark); stroke-width: 3; }
+.sc-chair-base { stroke: var(--scene-metal-dark); stroke-width: 10; }

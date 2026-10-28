@@ -1,0 +1,346 @@
+/* ---------- Cyber Crossing ---------- */
+
+.cc {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(0.5rem, 1.5vh, 1rem);
+  width: 100%;
+  min-height: 0;
+  padding: clamp(0.5rem, 1.5vh, 1.25rem) var(--gutter) clamp(0.75rem, 2vh, 1.5rem);
+}
+
+.cc__top {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.cc__timer {
+  flex: 1;
+  height: clamp(8px, 1.2vh, 14px);
+  overflow: hidden;
+  border-radius: 999px;
+  background: var(--color-border);
+}
+
+.cc__timer-fill {
+  height: 100%;
+  border-radius: inherit;
+  background: var(--color-accent);
+  transform-origin: left;
+}
+
+.cc__timer-fill--hurry {
+  background: var(--color-bad);
+}
+
+.cc__clock {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3em;
+  font-size: var(--text-lg);
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+}
+
+.cc__clock--hurry {
+  color: var(--color-bad);
+}
+
+/* Portrait and narrow screens: the field, then the controls under it. */
+.cc__body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(0.75rem, 2vh, 1.5rem);
+  min-height: 0;
+}
+
+.cc__stage {
+  flex: 1;
+  min-height: 0;
+  display: grid;
+  place-items: center;
+  container-type: size;
+}
+
+/* --ratio is the field's width / height, from the config. */
+.cc__field {
+  display: block;
+  width: min(100cqw, 100cqh * var(--ratio));
+  aspect-ratio: var(--ratio);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+  cursor: pointer;
+  touch-action: none;
+  font-family: var(--font-sans);
+}
+
+.cc__panel {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem 2rem;
+}
+
+.cc__delivered {
+  font-size: var(--text-md);
+  font-weight: 700;
+  color: var(--color-text-muted);
+}
+
+.cc__delivered-n {
+  font-size: var(--text-xl);
+  font-weight: 800;
+  color: var(--color-text);
+}
+
+/* The hop buttons, as a cross. */
+.cc-pad {
+  display: grid;
+  grid-template: repeat(3, calc(var(--tap-min) * 1.1)) / repeat(3, calc(var(--tap-min) * 1.1));
+  gap: 0.35rem;
+}
+
+.cc-pad__btn {
+  display: grid;
+  place-items: center;
+  padding: 0;
+  border: 3px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-bg-raised);
+  color: var(--color-text);
+  font-size: var(--text-lg);
+  cursor: pointer;
+  touch-action: manipulation;
+}
+
+.cc-pad__btn:active {
+  border-color: var(--color-accent);
+  transform: scale(0.95);
+}
+
+.cc-pad__btn:focus-visible {
+  outline: 4px solid var(--color-text);
+  outline-offset: 2px;
+}
+
+.cc-pad__btn--up {
+  grid-area: 1 / 2;
+}
+
+.cc-pad__btn--left {
+  grid-area: 2 / 1;
+}
+
+.cc-pad__btn--right {
+  grid-area: 2 / 3;
+  border-color: var(--color-accent);
+  background: var(--color-accent);
+  color: var(--color-on-accent);
+}
+
+.cc-pad__btn--down {
+  grid-area: 3 / 2;
+}
+
+.cc-pad .icon--up {
+  transform: rotate(-90deg);
+}
+
+.cc-pad .icon--left {
+  transform: rotate(180deg);
+}
+
+.cc-pad .icon--down {
+  transform: rotate(90deg);
+}
+
+.cc__legend {
+  display: grid;
+  gap: 0.5rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+}
+
+.cc__legend li {
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+}
+
+.cc__legend svg {
+  width: 1.8em;
+  height: 1.8em;
+}
+
+.cc__legend .icon {
+  width: 1.8em;
+  color: var(--color-good);
+}
+
+/* Landscape screens (the booth display): the controls beside the field. */
+@media (orientation: landscape) and (min-aspect-ratio: 4/3) {
+  .cc__body {
+    flex-direction: row;
+  }
+
+  .cc__panel {
+    flex: none;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    width: 20rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .cc__legend {
+    display: none;
+  }
+}
+
+/* ---------- The field (the same in both themes) ---------- */
+
+.cc-col--end {
+  fill: var(--scene-chair);
+}
+
+.cc-col--traffic {
+  fill: var(--scene-screen);
+}
+
+.cc-col--ddos {
+  fill: color-mix(in srgb, var(--color-bad) 18%, var(--scene-screen));
+}
+
+.cc-col--router {
+  fill: #33414e;
+}
+
+.cc-lane-line {
+  stroke: #3f4b56;
+  stroke-width: 4;
+  stroke-dasharray: 22 18;
+}
+
+.cc-laptop {
+  fill: none;
+  stroke: #ffffff;
+  stroke-width: 6;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+}
+
+.cc-end-label {
+  fill: #ffffff;
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+}
+
+.cc-ddos-label {
+  fill: #ff8a97;
+  font-size: 22px;
+  font-weight: 800;
+}
+
+.cc-bug {
+  fill: var(--color-bad);
+  stroke: var(--color-bad);
+}
+
+.cc-bug path {
+  fill: none;
+  stroke-width: 4;
+  stroke-linecap: round;
+}
+
+.cc-flood-dot {
+  fill: var(--color-bad);
+}
+
+.cc-flood {
+  fill: var(--color-bad);
+}
+
+.cc-router circle {
+  fill: #56626b;
+  stroke: #9aa7b2;
+  stroke-width: 4;
+}
+
+.cc-router path {
+  fill: none;
+  stroke: #dfe6ec;
+  stroke-width: 5;
+  stroke-linecap: round;
+}
+
+.cc-router--hacked circle {
+  fill: var(--color-bad);
+  stroke: #ffffff;
+}
+
+.cc-router--hacked path {
+  stroke: #ffffff;
+}
+
+.cc-secure rect {
+  fill: color-mix(in srgb, #0f7a55 85%, transparent);
+  stroke: #34e39d;
+  stroke-width: 4;
+}
+
+.cc-secure text {
+  fill: #ffffff;
+  font-size: 26px;
+  font-weight: 800;
+}
+
+.cc-packet-pos {
+  transition: transform 90ms ease-out;
+}
+
+.cc-packet rect {
+  fill: var(--scene-accent);
+  stroke: #ffffff;
+  stroke-width: 4;
+}
+
+.cc-packet path {
+  fill: none;
+  stroke: #1b242e;
+  stroke-width: 5;
+  stroke-linejoin: round;
+}
+
+.cc-effect {
+  font-size: 34px;
+  font-weight: 800;
+  paint-order: stroke;
+  stroke: var(--scene-screen);
+  stroke-width: 8;
+  animation: pop-in 180ms ease-out;
+}
+
+.cc-effect--delivered {
+  fill: var(--color-good);
+}
+
+.cc-effect--hit {
+  fill: var(--color-bad);
+}
+
+/* On the lessons page: what hit. */
+.cc-lesson {
+  display: block;
+  width: 6rem;
+  padding: 0.5rem;
+  border-radius: var(--radius-md);
+  background: var(--scene-screen);
+}

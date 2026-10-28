@@ -1,0 +1,1385 @@
+/* The shell's styles, shared by every game: copied from Phish or Safe's app.css and adapted.
+   Each game's own styles are in src/games/<id>/<id>.css. */
+
+/* ---------- Base ---------- */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+/* Kiosk: no pinch-zoom on touchscreens (scrolling still works). */
+html {
+  touch-action: pan-x pan-y;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: var(--text-md);
+  line-height: 1.4;
+  color: var(--color-text);
+  background:
+    radial-gradient(ellipse 80% 50% at 50% 0%, var(--color-glow), transparent),
+    var(--color-bg);
+  background-attachment: fixed;
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+}
+
+h1,
+h2,
+p {
+  margin: 0;
+}
+
+.accent {
+  color: var(--color-accent-text);
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.icon {
+  flex: none;
+  width: 1em;
+  height: 1em;
+}
+
+.app {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+}
+
+/* Mid-game the page is exactly the screen's height: the game area fits itself in rather than scrolling. */
+.app--game {
+  height: 100vh;
+  height: 100dvh;
+  overflow: hidden;
+}
+
+/* ---------- Header ---------- */
+
+.app-header {
+  display: flex;
+  align-items: center;
+  gap: clamp(0.75rem, 2vw, 2rem);
+  padding: clamp(0.6rem, 1.4vw, 1.4rem) var(--gutter);
+  border-bottom: 1px solid var(--color-border);
+  background: color-mix(in srgb, var(--color-bg-raised) 80%, transparent);
+}
+
+.logo {
+  flex: none;
+  display: block;
+  width: auto;
+  height: clamp(2.75rem, 1.5rem + 3vw, 5.5rem);
+}
+
+/* Two logo files: white text for dark mode, grey text for light mode. */
+.logo--on-light,
+:root[data-theme='light'] .logo--on-dark {
+  display: none;
+}
+
+:root[data-theme='light'] .logo--on-light {
+  display: block;
+}
+
+.theme-toggle {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: clamp(2.75rem, 2rem + 1.5vw, 3.75rem);
+  height: clamp(2.75rem, 2rem + 1.5vw, 3.75rem);
+  padding: 0;
+  border: 2px solid var(--color-border);
+  border-radius: 50%;
+  background: transparent;
+  color: var(--color-text);
+  font-size: var(--text-md);
+  cursor: pointer;
+  touch-action: manipulation;
+}
+
+.theme-toggle:hover {
+  border-color: var(--color-accent);
+}
+
+.theme-toggle:focus-visible {
+  outline: 4px solid var(--color-text);
+  outline-offset: 3px;
+}
+
+.app-header__title {
+  font-size: var(--text-lg);
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.app-header__hud {
+  display: flex;
+  align-items: center;
+  gap: clamp(1rem, 4vw, 3.5rem);
+  margin-left: auto;
+}
+
+.stat {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.15em;
+  line-height: 1.05;
+}
+
+.stat__label {
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.stat__value {
+  font-size: var(--text-xl);
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+}
+
+.strikes {
+  display: flex;
+  gap: 0.3em;
+  font-size: var(--text-lg);
+}
+
+.strike {
+  display: grid;
+  place-items: center;
+  width: 1.4em;
+  height: 1.4em;
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  color: var(--color-border);
+}
+
+.strike .icon {
+  width: 0.8em;
+  height: 0.8em;
+}
+
+.strike--used {
+  border-color: var(--color-bad);
+  background: var(--color-bad);
+  color: var(--color-on-bad);
+}
+
+/* ---------- Buttons ---------- */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45em;
+  min-height: var(--tap-min);
+  padding: 0.5em 1.5em;
+  border: 2px solid transparent;
+  border-radius: 999px;
+  font: inherit;
+  font-size: var(--text-lg);
+  font-weight: 800;
+  cursor: pointer;
+  touch-action: manipulation;
+  transition:
+    transform 120ms ease,
+    filter 120ms ease,
+    opacity 120ms ease;
+}
+
+.btn:hover {
+  filter: brightness(1.08);
+}
+
+.btn:active {
+  transform: scale(0.97);
+}
+
+.btn:focus-visible {
+  outline: 4px solid var(--color-text);
+  outline-offset: 4px;
+}
+
+.btn--primary {
+  background: var(--color-accent);
+  color: var(--color-on-accent);
+}
+
+.btn--ghost {
+  border-color: var(--color-border);
+  background: transparent;
+  color: var(--color-text);
+}
+
+.btn--hero {
+  min-height: clamp(72px, 12vh, 128px);
+  padding-inline: 2.2em;
+  font-size: var(--text-xl);
+}
+
+/* ---------- Generic centred screen ---------- */
+
+.screen {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(1rem, 3vh, 2.5rem);
+  padding: var(--gutter);
+  text-align: center;
+}
+
+/* ---------- Homepage ---------- */
+
+.home {
+  cursor: pointer;
+  /* Background icons fly past the screen edges: never a scrollbar. */
+  overflow: clip;
+}
+
+/* Foreground panel, readable over the moving background. */
+.home__panel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(1rem, 3vh, 2.25rem);
+  width: min(100%, 52rem);
+  padding: clamp(1.5rem, 5vh, 4rem) clamp(1.25rem, 3vw, 3rem);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background: color-mix(in srgb, var(--color-bg) 90%, transparent);
+  box-shadow: var(--shadow-card);
+}
+
+.home__title {
+  font-size: var(--text-display);
+  font-weight: 800;
+  line-height: 1;
+}
+
+/* The invitation to play, right above Start. */
+.home__tagline {
+  font-size: var(--text-xl);
+  font-weight: 800;
+  line-height: 1.15;
+  color: var(--color-accent-text);
+}
+
+.home__prompt {
+  animation: prompt-pulse 1.6s ease-in-out infinite;
+}
+
+/* ---------- Homepage background ---------- */
+
+/* Behind everything (z-index -1 sits above the page background but below all content). */
+.home-bg {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+/* Floating icons that rise, spin, and pop. --size, --dur, --delay and --spin are set per icon. */
+.home-particle {
+  position: absolute;
+  bottom: -4rem;
+  font-size: var(--size);
+  opacity: 0;
+  animation: home-float var(--dur) ease-in-out var(--delay) infinite;
+}
+
+.home-particle--0 {
+  color: var(--color-accent);
+}
+
+.home-particle--1 {
+  color: var(--color-good);
+}
+
+.home-particle--2 {
+  color: var(--color-bad);
+}
+
+/* ---------- Arcade menu ---------- */
+
+.menu {
+  gap: clamp(0.6rem, 2vh, 1.75rem);
+  /* Background icons fly past the screen edges: never a scrollbar. */
+  overflow: clip;
+}
+
+.menu__title {
+  font-size: var(--text-display);
+  font-weight: 800;
+  line-height: 1;
+}
+
+.menu__tagline {
+  font-size: var(--text-xl);
+  font-weight: 800;
+  line-height: 1.15;
+  color: var(--color-accent-text);
+}
+
+.menu__intro {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3em;
+}
+
+/* Compact cards, up to three a row and centred, so about nine games still fit the booth screen without scrolling. */
+.menu__games {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: clamp(0.6rem, 1.6vh, 1.25rem) clamp(0.6rem, 1.5vw, 1.5rem);
+  width: 100%;
+  max-width: 110rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.menu__games > li {
+  display: flex;
+  flex: 0 1 34rem;
+  min-width: 0;
+}
+
+.menu-tile {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  gap: 1rem;
+  min-width: 0;
+  padding: clamp(0.6rem, 1.5vh, 1.1rem) 1.1rem;
+  border: 3px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background: color-mix(in srgb, var(--color-bg-raised) 92%, transparent);
+  box-shadow: var(--shadow-card-small);
+  color: var(--color-text);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  touch-action: manipulation;
+  transition:
+    transform 120ms ease,
+    border-color 120ms ease;
+}
+
+.menu-tile:hover {
+  border-color: var(--color-accent);
+}
+
+.menu-tile:active {
+  transform: scale(0.97);
+}
+
+.menu-tile:focus-visible {
+  outline: 4px solid var(--color-text);
+  outline-offset: 4px;
+}
+
+.menu-tile__icon {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 1.8em;
+  height: 1.8em;
+  border-radius: 50%;
+  background: var(--color-glow);
+  color: var(--color-accent-text);
+  font-size: clamp(2.2rem, 5vh, 3.2rem);
+}
+
+.menu-tile__icon .icon {
+  width: 0.9em;
+  height: 0.9em;
+}
+
+.menu-tile__text {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 0.15em;
+  min-width: 0;
+}
+
+.menu-tile__title {
+  font-size: var(--text-lg);
+  font-weight: 800;
+  line-height: 1.1;
+}
+
+/* Arcade / Hybrid / Learn, and what the game teaches. */
+.menu-tile__meta {
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+  min-width: 0;
+  overflow: hidden;
+  font-size: var(--text-sm);
+  font-weight: 700;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  color: var(--color-accent-text);
+}
+
+.menu-tile__kind {
+  flex: none;
+  padding: 0.05em 0.55em;
+  border-radius: 999px;
+  font-size: 0.8em;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  background: var(--color-accent);
+  color: var(--color-on-accent);
+}
+
+/* Its own box, so a line too long for the card ends in an ellipsis (a bare text node in the flex row can't). */
+.menu-tile__teaches {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* The game's best score so far, in place of the topic. */
+.menu-tile__best {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: var(--color-text);
+  font-variant-numeric: tabular-nums;
+}
+
+.menu-tile__kind--hybrid {
+  background: var(--color-info);
+  color: var(--color-on-info);
+}
+
+.menu-tile__kind--learn {
+  background: var(--color-good);
+  color: var(--color-on-good);
+}
+
+.menu-tile__tagline {
+  display: -webkit-box;
+  overflow: hidden;
+  font-size: var(--text-sm);
+  line-height: 1.25;
+  color: var(--color-text-muted);
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+  line-clamp: 1;
+}
+
+/* The whole card is the button; the arrow says so. */
+.menu-tile__go {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 1.7em;
+  height: 1.7em;
+  border-radius: 50%;
+  background: var(--color-accent);
+  color: var(--color-on-accent);
+  font-size: var(--text-lg);
+}
+
+.menu-tile__go .icon {
+  width: 0.7em;
+  height: 0.7em;
+}
+
+/* ---------- How-to-play guide ---------- */
+
+.guide__title {
+  font-size: var(--text-display);
+  font-weight: 800;
+  line-height: 1;
+}
+
+.guide__steps {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(0.75rem, 2vw, 2rem);
+  width: 100%;
+  max-width: 75rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.guide__step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4em;
+  padding: clamp(1rem, 2.5vh, 2rem) 1rem;
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background: var(--color-bg-raised);
+  font-size: var(--text-md);
+}
+
+.guide__step strong {
+  font-size: var(--text-lg);
+}
+
+.guide__icon {
+  display: inline-flex;
+  font-size: var(--text-hero);
+  color: var(--color-accent-text);
+}
+
+/* A tight line: it sits under the title, and with the default line height several guides ran 1px past 1280x720. */
+.guide__teaches {
+  margin-top: -0.5em;
+  font-size: var(--text-lg);
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--color-accent-text);
+}
+
+.guide__note {
+  max-width: 60rem;
+  color: var(--color-text-muted);
+}
+
+.guide__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+
+/* ---------- Lessons ("What you missed", after the run) ---------- */
+
+/* One scrolling page: every lesson, then Done, which stays pinned to the bottom of the screen. */
+.lessons {
+  justify-content: flex-start;
+  padding-bottom: 0;
+}
+
+.lessons__title {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: center;
+  gap: 0 0.6em;
+  font-size: var(--text-xl);
+  font-weight: 800;
+  line-height: 1.1;
+}
+
+.lessons__list {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(0.75rem, 2vh, 1.5rem);
+  width: 100%;
+  max-width: 80rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* Phones: the picture above the text. */
+.lesson {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem 1.5rem;
+  padding: 1rem 1.25rem;
+  border: 3px solid var(--color-bad);
+  border-radius: var(--radius-lg);
+  background: var(--color-bg-raised);
+  text-align: left;
+}
+
+.lesson--found {
+  border-color: var(--color-border);
+}
+
+.lesson__visual {
+  flex: none;
+}
+
+.lesson__body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.35em;
+  min-width: 0;
+}
+
+.lesson__title {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.4em;
+  font-size: var(--text-md);
+  font-weight: 800;
+  line-height: 1.25;
+}
+
+.lesson__title .icon {
+  margin-top: 0.1em;
+  color: var(--color-bad);
+}
+
+.lesson--found .lesson__title .icon {
+  color: var(--color-good);
+}
+
+.lesson__text {
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+}
+
+.lessons__done {
+  position: sticky;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  padding: 1.5rem 0 clamp(1rem, 3vh, 2rem);
+  background: linear-gradient(transparent, var(--color-bg) 45%);
+}
+
+/* Landscape screens (the booth display): the picture beside the text. */
+@media (orientation: landscape) and (min-aspect-ratio: 3/2) {
+  .lesson {
+    flex-direction: row;
+    align-items: center;
+  }
+}
+
+/* ---------- End screen ---------- */
+
+/* Summary on the left, what to remember on the right on wide screens; stacked on narrow ones. */
+.end-screen__summary {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(0.75rem, 2.2vh, 1.75rem);
+}
+
+.end-screen__side {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: 100%;
+  max-width: 34rem;
+  padding: clamp(1rem, 3vh, 2rem);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background: var(--color-bg-raised);
+  text-align: left;
+}
+
+.end-screen__side-title {
+  font-size: var(--text-lg);
+}
+
+/* Top scores, then what to remember. */
+.end-screen__part {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.end-screen__rank {
+  font-size: var(--text-lg);
+  font-weight: 800;
+  color: var(--color-accent-text);
+}
+
+.takeaways {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8em;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.takeaways__item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5em;
+  font-size: var(--text-md);
+  line-height: 1.3;
+}
+
+.takeaways__item .icon {
+  margin-top: 0.15em;
+  color: var(--color-good);
+}
+
+.end-screen__cta {
+  font-size: var(--text-md);
+  font-weight: 700;
+  color: var(--color-accent-text);
+}
+
+@media (min-width: 1000px) {
+  .end-screen {
+    flex-direction: row;
+    align-items: center;
+    gap: clamp(2rem, 5vw, 6rem);
+  }
+
+  .end-screen__summary {
+    flex: 1;
+    max-width: 56rem;
+  }
+}
+
+.end-screen__title {
+  display: flex;
+  align-items: center;
+  gap: 0.3em;
+  font-size: var(--text-display);
+  font-weight: 800;
+  line-height: 1;
+}
+
+.end-screen__title--over {
+  color: var(--color-bad);
+}
+
+.end-screen__title--complete {
+  color: var(--color-accent-text);
+}
+
+.end-screen__reason {
+  margin-top: -0.5em;
+  font-size: var(--text-lg);
+  color: var(--color-text-muted);
+  text-wrap: balance;
+}
+
+.end-screen__score {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.end-screen__score-label {
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.end-screen__score-value {
+  font-size: var(--text-hero);
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  line-height: 1.05;
+}
+
+.end-screen__stats {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.75rem clamp(1.5rem, 3vw, 3rem);
+  margin: 0;
+}
+
+.end-screen__stats > div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.end-screen__stats dt {
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.end-screen__stats dd {
+  margin: 0;
+  font-size: var(--text-xl);
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+}
+
+.end-screen__actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+}
+
+/* ---------- In-game verdict banner (shared by the games) ---------- */
+
+.banner {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35em;
+  padding: 0.2em 0.9em;
+  border: 3px solid currentColor;
+  border-radius: 999px;
+  background: var(--color-bg-raised);
+  font-size: var(--text-lg);
+  font-weight: 800;
+  text-transform: uppercase;
+  animation: pop-in 180ms ease-out;
+}
+
+.banner--good {
+  color: var(--color-good);
+}
+
+.banner--bad {
+  color: var(--color-bad);
+}
+
+.banner__detail {
+  color: var(--color-text);
+  text-transform: none;
+}
+
+/* ---------- Text boxes (prize draw, initials): typed on the booth's keyboard ---------- */
+
+.field {
+  width: 100%;
+  min-height: var(--tap-min);
+  padding: 0.3em 0.8em;
+  border: 4px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-bg-raised);
+  color: var(--color-text);
+  font: inherit;
+  font-family: var(--font-mono);
+  font-size: var(--text-lg);
+  user-select: text;
+}
+
+.field:focus {
+  border-color: var(--color-accent);
+  outline: none;
+  box-shadow: 0 0 0 4px var(--color-glow);
+}
+
+.field[aria-invalid='true'] {
+  border-color: var(--color-bad);
+}
+
+/* Enter the draw and Save, until what's typed will do: clicking says what's wrong instead. */
+.btn[aria-disabled='true'] {
+  opacity: 0.55;
+  cursor: default;
+  transform: none;
+  filter: none;
+}
+
+/* ---------- Prize draw sign-up ---------- */
+
+.contact {
+  gap: clamp(0.75rem, 2.2vh, 1.75rem);
+}
+
+.contact__title {
+  font-size: var(--text-display);
+  font-weight: 800;
+  line-height: 1;
+  color: var(--color-accent-text);
+}
+
+.contact__purpose {
+  max-width: 40em;
+  font-size: var(--text-lg);
+  color: var(--color-text-muted);
+}
+
+.contact__form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.6rem;
+  width: 100%;
+  max-width: 44rem;
+}
+
+.contact__label,
+.initials__prompt {
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.contact__error {
+  min-height: 1.4em;
+  color: var(--color-bad);
+  font-weight: 700;
+}
+
+.contact__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+
+/* ---------- Initials for a top score ---------- */
+
+.initials {
+  gap: clamp(0.75rem, 2.2vh, 1.75rem);
+}
+
+.initials__title {
+  font-size: var(--text-display);
+  font-weight: 800;
+  line-height: 1;
+  color: var(--color-accent-text);
+}
+
+.initials__detail {
+  font-size: var(--text-lg);
+}
+
+.initials__form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+/* Three big letters, arcade style. */
+.initials__input {
+  width: 4.2em;
+  padding: 0.05em 0.3em;
+  font-size: var(--text-display);
+  font-weight: 800;
+  letter-spacing: 0.25em;
+  /* Balances the spacing after the last letter, so the letters sit in the middle. */
+  text-indent: 0.25em;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.initials__input::placeholder {
+  color: var(--color-border);
+}
+
+.initials__warning {
+  min-height: 1.4em;
+  color: var(--color-warning);
+  font-weight: 700;
+}
+
+/* ---------- Leaderboard (end screen) ---------- */
+
+.leaderboard__list {
+  display: grid;
+  gap: 0.25em;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-variant-numeric: tabular-nums;
+}
+
+.leaderboard__row {
+  display: grid;
+  grid-template-columns: 2.2em minmax(0, 1fr) auto;
+  align-items: center;
+  padding: 0.15em 0.9em;
+  border-radius: var(--radius-md);
+  background: var(--color-bg);
+}
+
+.leaderboard__row--you {
+  background: var(--color-accent);
+  color: var(--color-on-accent);
+}
+
+.leaderboard__rank {
+  font-weight: 700;
+  opacity: 0.75;
+}
+
+.leaderboard__initials {
+  display: flex;
+  align-items: center;
+  gap: 0.6em;
+  font-weight: 800;
+  letter-spacing: 0.15em;
+}
+
+.leaderboard__you {
+  padding: 0.05em 0.5em;
+  border: 2px solid currentColor;
+  border-radius: 999px;
+  font-size: var(--text-sm);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.leaderboard__score {
+  font-weight: 800;
+}
+
+.leaderboard__empty {
+  color: var(--color-text-muted);
+}
+
+/* ---------- Booth admin (hidden corner, PIN, panel) ---------- */
+
+/* Over the logo, top left: held for SHELL_CONFIG.admin.holdMs. */
+.admin-corner {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 10;
+  width: 96px;
+  height: 96px;
+  -webkit-touch-callout: none;
+  touch-action: none;
+}
+
+.admin {
+  position: fixed;
+  inset: 0;
+  z-index: 20;
+  display: grid;
+  /* safe: a panel taller than the screen scrolls from its top instead of being cut off above it. */
+  place-items: safe center;
+  padding: var(--gutter);
+  overflow-y: auto;
+  background: rgb(0 0 0 / 0.6);
+  cursor: default;
+}
+
+.admin__panel {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: min(100%, 80rem);
+  padding: clamp(1.25rem, 3vw, 2.5rem);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background: var(--color-bg-raised);
+  box-shadow: var(--shadow-card);
+  text-align: left;
+}
+
+.admin h2 {
+  font-size: var(--text-lg);
+}
+
+.admin h3 {
+  margin: 0 0 0.6em;
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.admin .btn {
+  font-size: var(--text-md);
+}
+
+/* Two columns where there's room, with small Reset buttons, so the arcade's 11 boards fit the screen. */
+.admin__boards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 30rem), 1fr));
+  gap: 0.4rem 2rem;
+  margin: 0 0 0.5rem;
+  padding: 0;
+  list-style: none;
+}
+
+.admin__boards li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  font-size: var(--text-sm);
+}
+
+.admin__boards .btn {
+  min-height: 0;
+  padding: 0.35em 1em;
+  font-size: var(--text-sm);
+}
+
+.admin__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.admin__message {
+  min-height: 1.4em;
+  color: var(--color-text-muted);
+}
+
+.admin__note {
+  margin: 0.5rem 0;
+}
+
+.admin__close {
+  flex: 1;
+}
+
+.btn--danger {
+  background: var(--color-bad);
+  color: var(--color-on-bad);
+}
+
+/* The PIN keypad: it reuses .admin for the backdrop. */
+.pin {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  width: min(100%, 22rem);
+  padding: clamp(1rem, 2.5vw, 2rem);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background: var(--color-bg-raised);
+  box-shadow: var(--shadow-card);
+}
+
+.pin__title {
+  font-size: var(--text-lg);
+}
+
+.pin__dots {
+  display: flex;
+  gap: 0.9rem;
+}
+
+.pin__dot {
+  width: 1.1rem;
+  height: 1.1rem;
+  border: 2px solid var(--color-text-muted);
+  border-radius: 50%;
+}
+
+.pin__dot--filled {
+  border-color: var(--color-accent);
+  background: var(--color-accent);
+}
+
+.pin__keys {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.5rem;
+  width: 100%;
+}
+
+.pin__key {
+  min-height: calc(var(--tap-min) * 0.85);
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-bg);
+  color: var(--color-text);
+  font: inherit;
+  font-size: var(--text-lg);
+  font-weight: 700;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+
+.pin__key:active {
+  border-color: var(--color-accent);
+}
+
+.pin__key:focus-visible {
+  outline: 4px solid var(--color-text);
+  outline-offset: 2px;
+}
+
+.pin__small {
+  font-size: var(--text-sm);
+}
+
+/* ---------- Crash screen ---------- */
+
+.crash {
+  cursor: pointer;
+}
+
+.crash__title {
+  font-size: var(--text-xl);
+}
+
+/* ---------- Content error ---------- */
+
+.content-error {
+  align-items: flex-start;
+  max-width: var(--content-width);
+  margin: 0 auto;
+  text-align: left;
+}
+
+.content-error h1 {
+  font-size: var(--text-xl);
+  color: var(--color-warning);
+}
+
+.content-error ul {
+  display: grid;
+  gap: 0.5em;
+  padding-left: 1.2em;
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  user-select: text;
+}
+
+/* ---------- Small screens ---------- */
+
+@media (max-width: 640px) {
+  .app-header__title {
+    display: none;
+  }
+
+  /* Logo, score, strikes and theme toggle must share a 375px-wide phone header. */
+  .app-header {
+    gap: 0.5rem;
+  }
+
+  .app-header__hud {
+    gap: 0.75rem;
+  }
+
+  .theme-toggle {
+    width: 2.5rem;
+    height: 2.5rem;
+  }
+
+  .logo {
+    height: 2rem;
+  }
+
+  .stat__label {
+    font-size: 0.75rem;
+  }
+
+  .stat__value {
+    font-size: var(--text-lg);
+  }
+
+  .strikes {
+    font-size: var(--text-md);
+  }
+
+  .guide__steps {
+    grid-template-columns: 1fr;
+  }
+
+  .guide__step {
+    padding: 0.75rem;
+  }
+
+  .guide__icon {
+    font-size: var(--text-xl);
+  }
+
+  /* The arcade menu: one tile a row, without the taglines. */
+  .menu__games > li {
+    flex-basis: 100%;
+  }
+
+  .menu-tile {
+    padding: 0.5rem 0.75rem;
+  }
+
+  .menu-tile__icon {
+    font-size: 1.9rem;
+  }
+
+  .menu-tile__tagline {
+    display: none;
+  }
+}
+
+/* ---------- Motion ---------- */
+
+/* Uses the scale property, not transform, so a popup placed with transform stays where it is while it grows. */
+@keyframes pop-in {
+  from {
+    opacity: 0;
+    scale: 0.85;
+  }
+  to {
+    opacity: 1;
+    scale: 1;
+  }
+}
+
+@keyframes home-float {
+  0% {
+    opacity: 0;
+    transform: translateY(0) rotate(0deg) scale(1);
+  }
+  10% {
+    opacity: 0.45;
+  }
+  80% {
+    opacity: 0.45;
+    transform: translateY(-80vh) rotate(var(--spin)) scale(1);
+  }
+  88% {
+    opacity: 0.8;
+    transform: translateY(-85vh) rotate(var(--spin)) scale(1.5);
+  }
+  94%,
+  100% {
+    opacity: 0;
+    transform: translateY(-87vh) rotate(var(--spin)) scale(2.2);
+  }
+}
+
+@keyframes prompt-pulse {
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 1ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 1ms !important;
+  }
+
+  .home-bg {
+    display: none;
+  }
+}

@@ -1,0 +1,283 @@
+/* ---------- Secure Stack ---------- */
+
+/* Portrait and narrow screens: the tower, then the panel under it. */
+.sb {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(0.75rem, 2vh, 1.5rem);
+  width: 100%;
+  min-height: 0;
+  padding: clamp(0.5rem, 1.5vh, 1.25rem) var(--gutter) clamp(0.75rem, 2vh, 1.5rem);
+}
+
+/* The tower fills whatever room is left, at its own shape (--ratio, from STACK_CONFIG.view). */
+.sb__stage {
+  flex: 1;
+  min-height: 0;
+  display: grid;
+  place-items: center;
+  container-type: size;
+}
+
+.sb__view {
+  display: block;
+  width: min(100cqw, 100cqh * var(--ratio));
+  aspect-ratio: var(--ratio);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+  cursor: pointer;
+  touch-action: manipulation;
+  font-family: var(--font-sans);
+}
+
+.sb__panel {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 1rem;
+}
+
+.sb__prompt {
+  font-size: var(--text-lg);
+  font-weight: 800;
+  text-align: center;
+}
+
+.sb__prompt--warn {
+  color: var(--color-bad);
+}
+
+.sb__options {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+}
+
+.sb-option {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.2rem;
+  padding: 0.9rem 0.5rem;
+  border: 3px solid transparent;
+  border-radius: var(--radius-md);
+  font: inherit;
+  cursor: pointer;
+  touch-action: manipulation;
+  box-shadow: var(--shadow-card-small);
+}
+
+.sb-option:hover {
+  border-color: var(--color-text);
+}
+
+.sb-option:active {
+  transform: scale(0.97);
+}
+
+.sb-option:focus-visible {
+  outline: 4px solid var(--color-text);
+  outline-offset: 3px;
+}
+
+.sb-option__glyph {
+  width: 3.2rem;
+  height: 3.2rem;
+}
+
+.sb-option__label {
+  font-size: var(--text-md);
+  font-weight: 800;
+  line-height: 1.1;
+}
+
+.sb-option__points {
+  font-size: var(--text-sm);
+  font-weight: 600;
+  opacity: 0.85;
+}
+
+.sb__drop {
+  min-height: calc(var(--tap-min) * 1.6);
+  font-size: var(--text-xl);
+  text-transform: uppercase;
+}
+
+.sb__rules {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+}
+
+.sb__rules li {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5em;
+}
+
+.sb__rules .icon {
+  margin-top: 0.15em;
+  color: var(--color-accent-text);
+}
+
+/* Landscape screens (the booth display): the panel beside the tower. */
+@media (orientation: landscape) and (min-aspect-ratio: 4/3) {
+  .sb {
+    flex-direction: row;
+    align-items: stretch;
+  }
+
+  .sb__panel {
+    flex: none;
+    justify-content: center;
+    width: 24rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .sb__rules {
+    display: none;
+  }
+}
+
+/* ---------- Inside the view ---------- */
+
+.sb-sky {
+  fill: var(--scene-screen);
+}
+
+.sb-world {
+  transition: transform 300ms ease-out;
+}
+
+.sb-internet {
+  fill: color-mix(in srgb, var(--color-bad) 35%, var(--scene-screen));
+}
+
+.sb-internet__label {
+  fill: #ffffff;
+  font-size: 26px;
+  font-weight: 800;
+  letter-spacing: 0.2em;
+}
+
+/* Each kind of block: a colour, a picture and a label (never colour alone). The same in both themes. */
+.sb-block--foundation,
+.sb-option--foundation {
+  --block: var(--scene-chair);
+  --on-block: #ffffff;
+}
+
+.sb-block--database,
+.sb-option--database {
+  --block: var(--scene-bin);
+  --on-block: #ffffff;
+}
+
+.sb-block--web,
+.sb-option--web {
+  --block: var(--scene-metal-dark);
+  --on-block: #ffffff;
+}
+
+.sb-block--firewall,
+.sb-option--firewall {
+  --block: var(--scene-accent);
+  --on-block: #1b242e;
+}
+
+.sb-block--login,
+.sb-option--login {
+  --block: var(--color-card-good);
+  --on-block: #ffffff;
+}
+
+.sb-block rect {
+  fill: var(--block);
+}
+
+.sb-option {
+  background: var(--block);
+  color: var(--on-block);
+}
+
+.sb-bricks {
+  fill: none;
+  stroke: rgb(0 0 0 / 0.22);
+  stroke-width: 3;
+}
+
+.sb-glyph {
+  fill: none;
+  stroke: var(--on-block);
+  stroke-width: 3.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.sb-label {
+  fill: var(--on-block);
+  font-size: 24px;
+  font-weight: 800;
+}
+
+/* An exposed database: outlined in red, with a warning badge. */
+.sb-block--exposed > rect {
+  stroke: var(--color-bad);
+  stroke-width: 6;
+}
+
+.sb-alert {
+  fill: var(--color-bad);
+  stroke: #ffffff;
+  stroke-width: 3;
+}
+
+.sb-alert-mark {
+  fill: none;
+  stroke: #ffffff;
+  stroke-width: 4;
+  stroke-linecap: round;
+}
+
+.sb-effect {
+  font-size: 36px;
+  font-weight: 800;
+  paint-order: stroke;
+  stroke: var(--scene-screen);
+  stroke-width: 8;
+  /* Grows from its own middle, not the corner of the picture. */
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: pop-in 180ms ease-out;
+}
+
+.sb-effect--perfect {
+  fill: var(--scene-wedge);
+}
+
+.sb-effect--protected,
+.sb-effect--depth {
+  fill: var(--color-good);
+}
+
+.sb-effect--exposed,
+.sb-effect--collapse {
+  fill: var(--color-bad);
+}
+
+/* On the lessons page: the database and what was put straight on it. */
+.sb-lesson {
+  display: block;
+  width: 17rem;
+  padding: 0.4rem;
+  border-radius: var(--radius-md);
+  background: var(--scene-screen);
+  font-family: var(--font-sans);
+}

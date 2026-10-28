@@ -1,0 +1,44 @@
+{
+  "name": "bui-booth-games",
+  "private": true,
+  "version": "0.1.0",
+  "description": "BUI expo booth kiosk games: an arcade of short security games (Phish or Safe?, Data Recovery Claw, Secure Stack, Firewall Frenzy, Patch Panic, Stronger Password?, Segment the Network, Byte Guard, Password Python). Fully offline.",
+  "type": "module",
+  "engines": {
+    "node": ">=20.19"
+  },
+  "scripts": {
+    "dev": "vite --mode arcade",
+    "dev:arcade": "vite --mode arcade",
+    "dev:phish": "vite --mode phish",
+    "dev:claw": "vite --mode claw",
+    "dev:stack": "vite --mode stack",
+    "dev:firewall": "vite --mode firewall",
+    "dev:patch": "vite --mode patch",
+    "dev:password": "vite --mode password",
+    "dev:segment": "vite --mode segment",
+    "dev:byteguard": "vite --mode byteguard",
+    "dev:pythonpw": "vite --mode pythonpw",
+    "build": "tsc -b && vite build --mode arcade && vite build --mode phish && vite build --mode claw && vite build --mode stack && vite build --mode firewall && vite build --mode patch && vite build --mode password && vite build --mode segment && vite build --mode byteguard && vite build --mode pythonpw",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "dependencies": {
+    "@fontsource/poppins": "^5.3.0",
+    "framer-motion": "^13.4.4",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.15.0",
+    "@types/react": "^19.1.8",
+    "@types/react-dom": "^19.1.6",
+    "@types/zxcvbn": "^4.4.5",
+    "@vitejs/plugin-react": "^4.6.0",
+    "typescript": "~5.8.3",
+    "vite": "^7.0.0",
+    "vite-plugin-singlefile": "^2.3.3",
+    "vitest": "^3.2.4",
+    "zxcvbn": "^4.4.2"
+  }
+}

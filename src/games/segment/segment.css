@@ -1,0 +1,240 @@
+/* ---------- Segment the Network ---------- */
+
+.seg {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(0.5rem, 1.5vh, 1rem);
+  width: 100%;
+  min-height: 0;
+  padding: clamp(0.5rem, 1.5vh, 1.25rem) var(--gutter) clamp(0.75rem, 2vh, 1.5rem);
+}
+
+.seg__clock {
+  flex: none;
+  width: 100%;
+  max-width: 96rem;
+  height: clamp(10px, 1.6vh, 18px);
+  margin: 0 auto;
+  overflow: hidden;
+  border-radius: 999px;
+  background: var(--color-border);
+}
+
+.seg__clock-fill {
+  height: 100%;
+  border-radius: inherit;
+  background: var(--color-accent);
+  transform-origin: left;
+  transition: transform 200ms ease-out;
+}
+
+.seg__clock-fill--hurry {
+  background: var(--color-bad);
+}
+
+.seg__time {
+  font-variant-numeric: tabular-nums;
+}
+
+.seg__time--hurry {
+  color: var(--color-bad);
+}
+
+.seg__info {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: center;
+  gap: 0.25rem 1.5rem;
+  font-size: var(--text-md);
+}
+
+.seg__info strong {
+  font-size: var(--text-lg);
+}
+
+.seg__hint {
+  color: var(--color-text-muted);
+  font-size: var(--text-sm);
+}
+
+.seg__hint--solved {
+  color: var(--color-good);
+  font-size: var(--text-md);
+  font-weight: 800;
+}
+
+/* The board and, beside it on landscape screens, the list of links to make. */
+.seg__body {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  gap: clamp(1rem, 3vw, 3rem);
+  min-height: 0;
+}
+
+/* The board fills the room it has, square. */
+.seg__stage {
+  flex: 1;
+  min-width: 0;
+  min-height: 0;
+  display: grid;
+  place-items: center;
+  container-type: size;
+}
+
+.seg__board {
+  display: block;
+  width: min(100cqw, 100cqh);
+  aspect-ratio: 1;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+  cursor: pointer;
+  touch-action: none;
+}
+
+/* Fades in when solved, but goes at once when the next puzzle comes, so it doesn't linger on that one. */
+.seg__board--solved {
+  box-shadow:
+    0 0 0 6px var(--color-good),
+    var(--shadow-card);
+  transition: box-shadow 200ms ease;
+}
+
+/* The same in both themes, so the link colours read the same. */
+.seg-board {
+  fill: var(--link-board);
+}
+
+.seg-cell {
+  fill: transparent;
+  stroke: var(--link-grid);
+  stroke-width: 2;
+}
+
+.seg-cell--on {
+  fill: color-mix(in srgb, var(--c) 28%, var(--link-board));
+}
+
+.seg-line {
+  fill: none;
+  stroke: var(--c);
+  stroke-width: 30;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.seg-end circle {
+  fill: var(--c);
+}
+
+.seg-end__icon {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: 100%;
+  font-size: 44px;
+  color: var(--link-board);
+}
+
+.seg__legend {
+  flex: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.6rem;
+  width: 24rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.seg-key {
+  display: flex;
+  align-items: center;
+  gap: 0.6em;
+  padding: 0.45em 0.7em;
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-bg-raised);
+  font-size: var(--text-sm);
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.seg-key--done {
+  border-color: var(--color-good);
+}
+
+.seg-key__text {
+  flex: 1;
+  min-width: 0;
+}
+
+/* A name never breaks in the middle ("Print / server"): the line breaks at the arrow. */
+.seg-key__name {
+  white-space: nowrap;
+}
+
+.seg-key__done {
+  color: var(--color-good);
+  font-size: var(--text-md);
+}
+
+/* A link as a small picture: the device, a line, the network, in the link's colour. */
+.seg-chip {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  font-size: var(--text-md);
+}
+
+.seg-chip__end {
+  display: grid;
+  place-items: center;
+  width: 1.7em;
+  height: 1.7em;
+  border-radius: 50%;
+  background: var(--c);
+  color: var(--link-board);
+  font-size: 0.8em;
+}
+
+.seg-chip__end .icon {
+  font-size: 1.1em;
+}
+
+.seg-chip__line {
+  width: 1.2em;
+  height: 0.35em;
+  background: var(--c);
+}
+
+/* In the lessons, the chip is the picture: a little bigger. */
+.lesson__visual .seg-chip {
+  font-size: var(--text-xl);
+}
+
+/* Phones: the list of links under the board, two a row. */
+@media (max-width: 640px) {
+  .seg__body {
+    flex-direction: column;
+  }
+
+  .seg__legend {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    width: 100%;
+    gap: 0.4rem;
+  }
+
+  .seg-key {
+    padding: 0.3em 0.45em;
+    font-size: 0.75rem;
+  }
+
+  .seg-chip {
+    font-size: 0.9rem;
+  }
+}

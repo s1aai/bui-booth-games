@@ -1,0 +1,234 @@
+/* ---------- Firewall Frenzy ---------- */
+
+.fw {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(0.4rem, 1vh, 0.75rem);
+  width: 100%;
+  min-height: 0;
+  padding: clamp(0.5rem, 1.5vh, 1.25rem) var(--gutter) clamp(0.75rem, 2vh, 1.5rem);
+}
+
+.fw__hint {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35em;
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.fw__hint .icon {
+  color: var(--color-accent-text);
+}
+
+.fw__hint .icon:not(:first-child) {
+  margin-left: 1.2em;
+}
+
+.fw__streak {
+  margin-left: 1.2em;
+  color: var(--color-accent-text);
+  font-weight: 700;
+}
+
+/* Where the files fall: columns side by side. Its size is the container for the files' positions. */
+.fw__field {
+  --drop-h: clamp(3.2rem, 8vh, 5.5rem);
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+  border: 1px solid var(--color-border);
+  border-bottom: 0;
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+  background: linear-gradient(var(--color-bg-raised), color-mix(in srgb, var(--color-bg-raised) 30%, transparent));
+  container-type: size;
+}
+
+.fw--over .fw__field {
+  opacity: 0.75;
+}
+
+.fw__lane-line {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: calc(var(--lane) / var(--lanes) * 100%);
+  border-left: 2px dashed var(--color-border);
+  opacity: 0.6;
+}
+
+/* A falling file. --lane picks the column and --p (0-1) how far down it is. */
+.fw-file {
+  position: absolute;
+  top: 0;
+  left: calc(var(--lane) / var(--lanes) * 100%);
+  display: flex;
+  width: calc(100% / var(--lanes));
+  height: var(--drop-h);
+  padding: 0 0.6rem;
+  border: 0;
+  background: none;
+  font: inherit;
+  cursor: pointer;
+  touch-action: manipulation;
+  transform: translateY(calc(var(--p) * (100cqh - var(--drop-h))));
+}
+
+.fw-file:focus-visible {
+  outline: none;
+}
+
+.fw-file:focus-visible .fw-file__card {
+  outline: 4px solid var(--color-text);
+  outline-offset: 2px;
+}
+
+.fw-file__card {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  gap: 0.5rem;
+  min-width: 0;
+  padding: 0.4rem 0.8rem;
+  border: 3px solid var(--color-card-border);
+  border-radius: var(--radius-md);
+  background: var(--color-card);
+  color: var(--color-card-text);
+  box-shadow: var(--shadow-card-small);
+  font-size: min(var(--text-md), 3.4cqw);
+  text-align: left;
+}
+
+.fw-file:active .fw-file__card {
+  border-color: var(--color-accent);
+}
+
+.fw-file__card .icon {
+  flex: none;
+  width: 1.4em;
+  height: 1.4em;
+  color: var(--color-card-muted);
+}
+
+.fw-file__name {
+  min-width: 0;
+  font-family: var(--font-mono);
+  font-weight: 700;
+  line-height: 1.15;
+  overflow-wrap: anywhere;
+}
+
+/* Narrow screens (phones): no icon, and text sized to the column, so long names wrap inside the card. */
+@container (max-width: 700px) {
+  .fw-file {
+    padding: 0 0.2rem;
+  }
+
+  .fw-file__card {
+    padding: 0.25rem 0.4rem;
+    font-size: 2.9cqw;
+  }
+
+  .fw-file__card .icon {
+    display: none;
+  }
+}
+
+/* On the lessons page: what the file really was. */
+.fw-file__tag {
+  margin-left: auto;
+  padding: 0.1em 0.6em;
+  border-radius: 999px;
+  font-size: 0.8em;
+  font-weight: 800;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.fw-file__tag--bad {
+  background: var(--color-bad);
+  color: var(--color-on-bad);
+}
+
+.fw-file__tag--good {
+  background: var(--color-good);
+  color: var(--color-on-good);
+}
+
+.lesson__visual .fw-file__card {
+  flex-wrap: wrap;
+  width: 26rem;
+  max-width: 100%;
+  font-size: var(--text-md);
+}
+
+.lesson__visual .fw-file__name {
+  white-space: nowrap;
+}
+
+/* "Blocked! +100", "+50" or a strike, where it happened. */
+.fw-effect {
+  position: absolute;
+  top: 0;
+  left: calc(var(--lane) / var(--lanes) * 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: calc(100% / var(--lanes));
+  height: var(--drop-h);
+  font-size: min(var(--text-lg), 3.6cqw);
+  font-weight: 800;
+  text-align: center;
+  pointer-events: none;
+  transform: translateY(calc(var(--p) * (100cqh - var(--drop-h))));
+  animation: pop-in 160ms ease-out;
+}
+
+.fw-effect--blocked,
+.fw-effect--delivered {
+  color: var(--color-good);
+}
+
+.fw-effect--wrongBlock,
+.fw-effect--breach {
+  color: var(--color-bad);
+}
+
+.fw-effect--delivered {
+  font-size: min(var(--text-md), 3cqw);
+}
+
+/* Your network, at the bottom: the firewall bricks. It flashes red on a breach. */
+.fw__network {
+  --brick-line: rgb(0 0 0 / 0.22);
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6em;
+  min-height: clamp(3rem, 7vh, 4.5rem);
+  border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+  /* Two rows of bricks, the second offset by half a brick. */
+  background:
+    linear-gradient(90deg, transparent 3.85rem, var(--brick-line) 0) 0 0 / 4rem 50% repeat-x,
+    linear-gradient(90deg, transparent 3.85rem, var(--brick-line) 0) 2rem 100% / 4rem 50% repeat-x,
+    linear-gradient(var(--brick-line), var(--brick-line)) 0 50% / 100% 0.15rem no-repeat,
+    var(--color-accent);
+  color: var(--color-on-accent);
+  font-size: var(--text-lg);
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.fw__network--breach {
+  background: var(--color-bad);
+  color: var(--color-on-bad);
+  animation: pop-in 160ms ease-out;
+}

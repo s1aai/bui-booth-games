@@ -1,0 +1,676 @@
+/* ---------- Phish or Safe? ----------
+   Ported from the standalone game's app.css. Its generic names (game, timer, feedback, the card stage and the
+   lesson panel) got a ps- prefix here, and its --color-phish / --color-safe are the arcade's --color-bad / --color-good. */
+
+/* ---------- Level picker ---------- */
+
+.tier-picker {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75em;
+  width: 100%;
+}
+
+.tier-picker__heading {
+  margin-bottom: 0.5em;
+  font-size: var(--text-display);
+  font-weight: 800;
+  line-height: 1;
+}
+
+.tier-picker__options {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(0.75rem, 2vw, 2rem);
+  width: 100%;
+  max-width: 75rem;
+}
+
+.btn--tier {
+  flex-direction: column;
+  gap: 0.3em;
+  min-height: clamp(96px, 16vh, 180px);
+  padding: 0.6em 0.75em;
+  border-radius: var(--radius-lg);
+  border-color: var(--color-accent);
+  background: var(--color-bg-raised);
+  color: var(--color-text);
+}
+
+.btn--tier:first-child {
+  background: var(--color-accent);
+  color: var(--color-on-accent);
+}
+
+.tier-picker__label {
+  font-size: var(--text-lg);
+  line-height: 1.1;
+}
+
+.tier-picker__hint {
+  font-size: var(--text-sm);
+  font-weight: 400;
+  line-height: 1.3;
+}
+
+/* ---------- Game ---------- */
+
+.ps-game {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(0.75rem, 2vh, 1.75rem);
+  width: 100%;
+  max-width: calc(var(--content-width) + 2 * var(--gutter));
+  min-height: 0;
+  margin: 0 auto;
+  padding: clamp(0.75rem, 2vh, 2rem) var(--gutter) clamp(1rem, 3vh, 2.5rem);
+}
+
+.ps-timer {
+  flex: none;
+  width: 100%;
+  max-width: var(--content-width);
+  height: clamp(8px, 1.2vh, 14px);
+  margin: 0 auto;
+  overflow: hidden;
+  border-radius: 999px;
+  background: var(--color-border);
+}
+
+/* Drains over --timer-ms (set per card by TimerBar) and turns red for the last 30%. */
+.ps-timer__fill {
+  height: 100%;
+  border-radius: inherit;
+  transform-origin: left;
+  animation: ps-timer-drain var(--timer-ms) linear forwards;
+}
+
+.ps-timer__fill--paused {
+  animation-play-state: paused;
+}
+
+.ps-game__progress {
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.ps-game__level {
+  color: var(--color-accent-text);
+  font-weight: 700;
+}
+
+.ps-game__overtime {
+  color: var(--color-bad);
+  font-weight: 800;
+}
+
+.ps-game__level::before,
+.ps-game__overtime::before {
+  content: '·';
+  margin-inline: 0.6em;
+  color: var(--color-text-muted);
+}
+
+/* Stage holds the (possibly scrolling) card area plus the feedback overlay, which must not scroll with it. */
+.ps-stage {
+  position: relative;
+  flex: 1;
+  display: flex;
+  min-height: 0;
+}
+
+/* The scroll container spans the full screen width, so the card's shadow isn't clipped and a swiped card still
+   flies off the screen edge rather than vanishing at the edge of the content column. It still scrolls by touch or
+   wheel, but never shows a bar: Windows would flash one each time a tilted card flies off, and a long card only ever
+   overflows by a few pixels. */
+.ps-card-area {
+  flex: 1;
+  display: flex;
+  align-items: safe center;
+  justify-content: center;
+  overflow-x: hidden;
+  overflow-y: auto;
+  margin-inline: calc(50% - 50vw);
+  padding: 0.25rem calc(50vw - 50%) 1.25rem;
+  scrollbar-width: none;
+}
+
+.ps-card-area::-webkit-scrollbar {
+  display: none;
+}
+
+/* Above the answer buttons, so a card dragged towards one passes over it rather than under. */
+.ps-card-slot {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: var(--content-width);
+}
+
+/* ---------- Swipe card ---------- */
+
+.swipe-card {
+  position: relative;
+  border-radius: var(--radius-lg);
+}
+
+.swipe-card--live {
+  cursor: grab;
+}
+
+.swipe-card--live:active {
+  cursor: grabbing;
+}
+
+/* Tint plus a labelled stamp, so the drag direction never relies on colour alone. */
+.swipe-card__tint {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: flex-start;
+  padding: clamp(0.75rem, 2vw, 1.75rem);
+  border: 5px solid currentColor;
+  border-radius: inherit;
+  pointer-events: none;
+}
+
+.swipe-card__tint--phish {
+  justify-content: flex-end;
+  color: var(--color-bad);
+  background: color-mix(in srgb, var(--color-bad) 18%, transparent);
+  --stamp-bg: var(--color-bad);
+  --stamp-text: var(--color-on-bad);
+}
+
+.swipe-card__tint--safe {
+  justify-content: flex-start;
+  color: var(--color-good);
+  background: color-mix(in srgb, var(--color-good) 18%, transparent);
+  --stamp-bg: var(--color-good);
+  --stamp-text: var(--color-on-good);
+}
+
+.swipe-card__stamp {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3em;
+  padding: 0.15em 0.6em;
+  border-radius: var(--radius-md);
+  background: var(--stamp-bg);
+  color: var(--stamp-text);
+  font-size: var(--text-xl);
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+/* ---------- Email card ---------- */
+
+.email-card {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(0.6rem, 1.5vh, 1.25rem);
+  width: 100%;
+  max-width: var(--content-width);
+  padding: clamp(1.1rem, 2.5vw, 2.5rem);
+  border-radius: var(--radius-lg);
+  background: var(--color-card);
+  color: var(--color-card-text);
+  box-shadow: var(--shadow-card);
+  text-align: left;
+  animation: ps-card-in 220ms ease-out;
+}
+
+.email-card__header {
+  display: flex;
+  align-items: center;
+  gap: 0.8em;
+  padding-bottom: clamp(0.6rem, 1.5vh, 1.1rem);
+  border-bottom: 1px solid var(--color-card-border);
+}
+
+.email-card__avatar {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 2.4em;
+  height: 2.4em;
+  border-radius: 50%;
+  background: var(--color-card-border);
+  color: var(--color-card-muted);
+  font-weight: 800;
+}
+
+.email-card__meta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1em;
+  min-width: 0;
+}
+
+.email-card__from-name {
+  font-weight: 700;
+}
+
+.email-card__from-address,
+.email-card__to {
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  color: var(--color-card-muted);
+  overflow-wrap: anywhere;
+}
+
+.email-card__subject {
+  font-size: var(--text-lg);
+  line-height: 1.2;
+}
+
+.email-card__body {
+  white-space: pre-line;
+}
+
+.email-card__links {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7em;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.email-card__link {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15em;
+  padding: 0.6em 0.8em;
+  border: 1px solid color-mix(in srgb, var(--color-card-link) 22%, transparent);
+  border-radius: var(--radius-md);
+  background: color-mix(in srgb, var(--color-card-link) 7%, transparent);
+}
+
+.email-card__link-text {
+  color: var(--color-card-link);
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
+  overflow-wrap: anywhere;
+}
+
+.email-card__link-href {
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  color: var(--color-card-muted);
+  overflow-wrap: anywhere;
+}
+
+.email-card__link-label {
+  font-family: var(--font-sans);
+  font-weight: 600;
+}
+
+/* ---------- Tell highlights (on missed emails in "What you missed") ---------- */
+
+.email-card--lesson-flag,
+.ps-tells--flag {
+  --mark-color: var(--color-bad);
+  --mark-on: var(--color-on-bad);
+}
+
+.email-card--lesson-safe,
+.ps-tells--safe {
+  --mark-color: var(--color-good);
+  --mark-on: var(--color-on-good);
+}
+
+.tell-mark {
+  padding: 0 0.15em;
+  border-radius: 4px;
+  background: color-mix(in srgb, var(--mark-color) 22%, transparent);
+  box-shadow: inset 0 -3px 0 var(--mark-color);
+  color: inherit;
+  animation: pop-in 220ms ease-out;
+}
+
+/* A tell without a "match" flags its whole part of the card. */
+.tell-part {
+  border-radius: 6px;
+  outline: 3px solid var(--mark-color);
+  outline-offset: 4px;
+}
+
+/* Numbered badge, matching the numbered giveaways beside the card. */
+.tell-mark::before,
+.tell-part::before {
+  content: attr(data-n);
+  display: inline-grid;
+  place-items: center;
+  width: 1.4em;
+  height: 1.4em;
+  margin-right: 0.25em;
+  border-radius: 50%;
+  background: var(--mark-color);
+  color: var(--mark-on);
+  font-family: var(--font-sans);
+  font-size: 0.75em;
+  font-weight: 800;
+  line-height: 1;
+  vertical-align: 0.15em;
+}
+
+/* In "What you missed": the card beside the reasons on landscape screens (above them on phones). */
+.ps-lesson-card {
+  width: 50rem;
+  max-width: 100%;
+}
+
+/* The numbered giveaways (in the shell's lesson, under its text). */
+.ps-tells {
+  display: grid;
+  gap: 0.35em;
+  margin: 0.25em 0 0;
+  padding: 0;
+  list-style: none;
+  font-size: var(--text-sm);
+}
+
+.ps-tells__item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5em;
+}
+
+.ps-tells__n {
+  flex: none;
+  display: inline-grid;
+  place-items: center;
+  width: 1.5em;
+  height: 1.5em;
+  border-radius: 50%;
+  background: var(--mark-color);
+  color: var(--mark-on);
+  font-size: 0.85em;
+  font-weight: 800;
+}
+
+/* ---------- Feedback overlay ---------- */
+
+.ps-feedback {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: var(--gutter);
+  pointer-events: none;
+}
+
+.ps-feedback__panel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25em;
+  padding: 0.9em 1.8em;
+  border: 4px solid currentColor;
+  border-radius: var(--radius-lg);
+  background: color-mix(in srgb, var(--color-bg) 94%, transparent);
+  box-shadow: var(--shadow-card);
+  animation: pop-in 180ms ease-out;
+}
+
+.ps-feedback--correct {
+  color: var(--color-good);
+}
+
+.ps-feedback--wrong {
+  color: var(--color-bad);
+}
+
+.ps-feedback__title {
+  display: flex;
+  align-items: center;
+  gap: 0.35em;
+  font-size: var(--text-xl);
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.ps-feedback__detail {
+  font-size: var(--text-lg);
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+/* ---------- Answer buttons ---------- */
+
+/* Default (portrait and narrow screens): a slim row under the card. */
+.answer-buttons {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  width: 100%;
+  max-width: var(--content-width);
+  margin: 0 auto;
+}
+
+.answer-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5em;
+  min-height: 3.25rem;
+  padding: 0.3em 1.1em 0.3em 0.4em;
+  border: 2px solid currentColor;
+  border-radius: 999px;
+  background: var(--color-bg-raised);
+  font: inherit;
+  font-size: var(--text-md);
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+  touch-action: manipulation;
+  transition:
+    transform 120ms ease,
+    background 120ms ease;
+}
+
+.answer-btn--phish {
+  color: var(--color-bad);
+}
+
+.answer-btn--safe {
+  flex-direction: row-reverse;
+  padding: 0.3em 0.4em 0.3em 1.1em;
+  color: var(--color-good);
+}
+
+.answer-btn__icon {
+  display: grid;
+  place-items: center;
+  width: 2.3em;
+  height: 2.3em;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+.answer-btn--phish .answer-btn__icon .icon {
+  color: var(--color-on-bad);
+}
+
+.answer-btn--safe .answer-btn__icon .icon {
+  color: var(--color-on-good);
+}
+
+.answer-btn__label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3em;
+}
+
+.answer-btn:hover {
+  background: color-mix(in srgb, currentColor 12%, var(--color-bg-raised));
+}
+
+.answer-btn:active {
+  transform: scale(0.95);
+}
+
+.answer-btn:focus-visible {
+  outline: 4px solid var(--color-text);
+  outline-offset: 3px;
+}
+
+.answer-btn[aria-disabled='true'] {
+  opacity: 0.45;
+  cursor: default;
+  transform: none;
+}
+
+/* Landscape screens with room at the sides (the booth display): the buttons sit either side of the card,
+   vertically centred, as round icons that also show which way to swipe. The card gets the full height. */
+@media (orientation: landscape) and (min-aspect-ratio: 3/2) {
+  .ps-game {
+    position: relative;
+  }
+
+  .answer-buttons {
+    position: absolute;
+    inset: 0;
+    display: block;
+    max-width: none;
+    pointer-events: none;
+  }
+
+  .answer-btn,
+  .answer-btn--safe {
+    position: absolute;
+    top: 50%;
+    flex-direction: column;
+    gap: 0.4em;
+    padding: 0;
+    border: 0;
+    background: none;
+    pointer-events: auto;
+    translate: 0 -50%;
+  }
+
+  .answer-btn:hover {
+    background: none;
+  }
+
+  .answer-btn:hover .answer-btn__icon {
+    filter: brightness(1.1);
+  }
+
+  /* Just outside the card's edges (the card is at most --content-width wide, centred). */
+  .answer-btn--phish {
+    right: calc(50% + var(--content-width) / 2 + 1.5rem);
+  }
+
+  .answer-btn--safe {
+    left: calc(50% + var(--content-width) / 2 + 1.5rem);
+  }
+
+  .answer-btn__icon {
+    width: clamp(4.5rem, 7vh, 6.5rem);
+    height: clamp(4.5rem, 7vh, 6.5rem);
+    font-size: var(--text-xl);
+    box-shadow: var(--shadow-card-small);
+  }
+
+  /* The arrow drifts outwards, hinting at the swipe. */
+  .answer-btn--phish .answer-btn__arrow {
+    animation: ps-nudge-left 1.6s ease-in-out infinite;
+  }
+
+  .answer-btn--safe .answer-btn__arrow {
+    animation: ps-nudge-right 1.6s ease-in-out infinite;
+  }
+}
+
+/* ---------- Small screens ---------- */
+
+/* Phones and short windows: a smaller shadow. */
+@media (max-width: 640px), (max-height: 700px) {
+  .email-card {
+    box-shadow: var(--shadow-card-small);
+  }
+}
+
+@media (max-width: 640px) {
+  .tier-picker__options {
+    grid-template-columns: 1fr;
+  }
+
+  .btn--tier {
+    min-height: var(--tap-min);
+  }
+
+  .ps-game {
+    gap: 0.6rem;
+    padding-top: 0.5rem;
+    padding-bottom: 0.75rem;
+  }
+
+  .email-card {
+    gap: 0.5rem;
+    padding: 1rem;
+    font-size: 1rem;
+  }
+
+  .email-card__avatar {
+    display: none;
+  }
+}
+
+/* ---------- Motion ---------- */
+
+@keyframes ps-card-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes ps-nudge-left {
+  50% {
+    transform: translateX(-0.25em);
+  }
+}
+
+@keyframes ps-nudge-right {
+  50% {
+    transform: translateX(0.25em);
+  }
+}
+
+@keyframes ps-timer-drain {
+  from {
+    transform: scaleX(1);
+    background: var(--color-accent);
+  }
+  70% {
+    background: var(--color-accent);
+  }
+  71% {
+    background: var(--color-bad);
+  }
+  to {
+    transform: scaleX(0);
+    background: var(--color-bad);
+  }
+}
+
+/* The timer bar is information, not decoration: it keeps its real duration with reduced motion. */
+@media (prefers-reduced-motion: reduce) {
+  .ps-timer__fill {
+    animation-duration: var(--timer-ms) !important;
+  }
+}

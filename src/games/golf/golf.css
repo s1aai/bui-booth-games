@@ -1,0 +1,186 @@
+/* ---------- Network Golf ---------- */
+
+.ng {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(0.5rem, 1.5vh, 1rem);
+  width: 100%;
+  min-height: 0;
+  padding: clamp(0.5rem, 1.5vh, 1.25rem) var(--gutter) clamp(0.75rem, 2vh, 1.5rem);
+}
+
+.ng__info {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: center;
+  gap: 0.25rem 1.5rem;
+  font-size: var(--text-md);
+}
+
+.ng__info strong {
+  font-size: var(--text-lg);
+}
+
+.ng__hint {
+  color: var(--color-text-muted);
+  font-size: var(--text-sm);
+}
+
+/* The course fills whatever room is left, at its own shape (--ratio, from GOLF_CONFIG). */
+.ng__stage {
+  flex: 1;
+  min-height: 0;
+  display: grid;
+  place-items: center;
+  container-type: size;
+}
+
+.ng__course {
+  display: block;
+  width: min(100cqw, 100cqh * var(--ratio));
+  aspect-ratio: var(--ratio);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+  cursor: crosshair;
+  touch-action: none;
+  font-family: var(--font-sans);
+}
+
+/* The same in both themes. */
+.ng-grass {
+  fill: #1f5c3d;
+}
+
+.ng-sniffer rect {
+  fill: color-mix(in srgb, var(--color-bad) 38%, transparent);
+  stroke: var(--color-bad);
+  stroke-width: 4;
+  stroke-dasharray: 14 10;
+}
+
+.ng-sniffer text {
+  fill: #ffffff;
+  font-size: 24px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+}
+
+.ng-eye {
+  fill: none;
+  stroke: #ffffff;
+  stroke-width: 5;
+}
+
+.ng-tunnel line {
+  stroke: #34e39d;
+  stroke-width: 26;
+  stroke-linecap: round;
+  opacity: 0.35;
+}
+
+.ng-tunnel circle {
+  fill: #0f7a55;
+  stroke: #34e39d;
+  stroke-width: 5;
+}
+
+.ng-tunnel text {
+  fill: #ffffff;
+  font-size: 22px;
+  font-weight: 800;
+  paint-order: stroke;
+  stroke: #0f7a55;
+  stroke-width: 6;
+}
+
+.ng-tunnel__in {
+  font-size: 20px;
+}
+
+.ng-wall {
+  fill: var(--scene-accent);
+  stroke: #1b242e;
+  stroke-width: 3;
+}
+
+.ng-port {
+  fill: var(--scene-wedge);
+  font-size: 22px;
+  font-weight: 800;
+  paint-order: stroke;
+  stroke: #1f5c3d;
+  stroke-width: 6;
+}
+
+.ng-hole circle {
+  fill: #0d1318;
+  stroke: #ffffff;
+  stroke-width: 3;
+}
+
+.ng-hole path {
+  stroke: #ffffff;
+  stroke-width: 4;
+}
+
+.ng-hole .ng-flag {
+  fill: var(--scene-accent);
+  stroke: none;
+}
+
+.ng-hole text {
+  fill: #ffffff;
+  font-size: 20px;
+  font-weight: 800;
+}
+
+.ng-aim {
+  stroke: #ffffff;
+  stroke-width: 5;
+  stroke-dasharray: 12 10;
+  stroke-linecap: round;
+  opacity: 0.8;
+}
+
+/* The pull, from the ball back to the finger: green for a tap, through yellow, to red at full power (--power, 0 to 1). */
+.ng-pull {
+  stroke: color-mix(in oklch, #ff5468 calc(var(--power) * 100%), #34e39d);
+  stroke-width: 12;
+  stroke-linecap: round;
+}
+
+.ng-power {
+  fill: #ffffff;
+  font-size: 26px;
+  font-weight: 800;
+  paint-order: stroke;
+  stroke: #0d1318;
+  stroke-width: 6;
+}
+
+.ng-ball {
+  fill: var(--scene-accent);
+  stroke: #ffffff;
+  stroke-width: 4;
+}
+
+.ng-effect {
+  font-size: 34px;
+  font-weight: 800;
+  paint-order: stroke;
+  stroke: #0d1318;
+  stroke-width: 8;
+  animation: pop-in 180ms ease-out;
+}
+
+.ng-effect--intercepted,
+.ng-effect--gaveUp {
+  fill: var(--color-bad);
+}
+
+.ng-effect--tunnel,
+.ng-effect--sunk {
+  fill: #34e39d;
+}

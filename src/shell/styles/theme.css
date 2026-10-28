@@ -1,0 +1,169 @@
+/*
+ * Theme tokens: the only place colours, fonts and sizes are defined. Copied from Phish or Safe.
+ * Colours are BUI's, sampled from the logo and website.
+ * Dark is the default; light applies when <html data-theme="light">. The header toggle switches them.
+ * To rebrand, change --color-accent, --color-on-accent and --color-accent-text in both blocks.
+ */
+:root {
+  color-scheme: dark;
+
+  /* Brand: BUI orange. Dark text on it rather than the website's white, for readable contrast (about 6:1). */
+  --color-accent: #d9861c;
+  --color-on-accent: #1b242e;
+  --color-accent-text: #d9861c; /* orange used as text colour */
+  --color-glow: color-mix(in srgb, var(--color-accent) 14%, transparent);
+
+  /* Page: BUI dark-mode slates */
+  --color-bg: #2a3744;
+  --color-bg-raised: #1b242e;
+  --color-border: #3f4b56;
+  --color-text: #ffffff;
+  --color-text-muted: #93a4ae;
+
+  /* "Paper" cards (the passwords): BUI light-mode surfaces and text */
+  --color-card: #ffffff;
+  --color-card-text: #243039;
+  --color-card-muted: #485155;
+  --color-card-border: #e1e8ef;
+  --color-card-good: #0f7a55; /* right and wrong as text on paper: dark enough in both themes */
+  --color-card-bad: #c62839;
+  --color-card-link: #1d4ed8; /* link text on Phish or Safe's email cards */
+  /* Segment the Network: one colour per kind of link (data.ts order), on its dark board in both themes. */
+  --link-1: #4ea8ff;
+  --link-2: #ff9f1c;
+  --link-3: #35d07f;
+  --link-4: #ff5c8a;
+  --link-5: #b07cff;
+  --link-6: #ffd23f;
+  --link-board: #151c23;
+  --link-grid: #2b3743;
+  /* Byte Guard and Password Python: the boards are pictures, so these are the same in both themes (like paper and the scene).
+     Canvas reads them with themeColour(); keep them as plain hex. */
+  --game-board: #151c23;
+  --game-board-line: #2b3743;
+  --game-band: #1b242e;
+  --game-slate: #3f4b56;
+  --game-mist: #93a4ae;
+  --game-paper: #ffffff;
+  --game-skin: #f2c29b;
+  --game-accent: #d9861c;
+  --game-accent-light: #ffb547;
+  --game-accent-dark: #8a5410;
+  --game-danger: #ff5468;
+  --game-danger-soft: #ffb3bd;
+  --game-danger-deep: #c62839;
+  --game-good: #34e39d;
+  --game-info: #6cb4ff;
+  --game-info-deep: #2f7fc1;
+  --game-info-soft: #a7d6ff;
+  --game-violet: #b07cff;
+  --game-pink: #ff5c8a;
+  --shadow-card: 0 24px 60px rgb(0 0 0 / 0.55);
+  --shadow-card-small: 0 10px 30px rgb(0 0 0 / 0.45);
+
+  /* Right and wrong (and Patch Panic's severities): always paired with an icon and a label, never colour alone */
+  --color-bad: #ff5468;
+  --color-on-bad: #1f0307;
+  --color-good: #34e39d;
+  --color-on-good: #02170e;
+  --color-warning: #ffb547;
+  --color-on-warning: #241400;
+  --color-info: #6cb4ff;
+  --color-on-info: #03182e;
+
+  /* Type: Poppins (BUI's website font) is bundled locally from @fontsource, so no network is needed.
+     Passwords are monospace so every character is clear. Fluid sizes read from a distance and still fit a phone. */
+  --font-sans: "Poppins", "Segoe UI", system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
+  --font-mono: "Cascadia Mono", Consolas, "SF Mono", Menlo, "DejaVu Sans Mono", monospace;
+  --text-sm: clamp(0.9rem, 0.8rem + 0.4vw, 1.3rem);
+  --text-md: clamp(1.05rem, 0.9rem + 0.65vw, 1.7rem);
+  --text-lg: clamp(1.25rem, 1rem + 1vw, 2.3rem);
+  --text-xl: clamp(1.6rem, 1.1rem + 2vw, 3.4rem);
+  --text-hero: clamp(2.5rem, 1.4rem + 5vw, 7rem);
+  --text-display: clamp(2rem, 1rem + 3.5vw, 5rem); /* big headings that share the screen with a lot else */
+
+  /* Shape and spacing */
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 24px;
+  --tap-min: 4rem; /* 64px, scaled like everything else on short landscape screens */
+  --gutter: clamp(1rem, 3vw, 3rem);
+  --content-width: 62rem;
+
+  /* Spot the Risk's office scene: an illustration, so the same in both themes (like paper). */
+  --scene-wall: #dfe6ec;
+  --scene-wall-shade: #c9d3dc;
+  --scene-floor: #7d8a96;
+  --scene-floor-line: #6c7884;
+  --scene-skirting: #56626b;
+  --scene-sky: #9fd3f5;
+  --scene-city: #7fb0cf;
+  --scene-frame: #56626b;
+  --scene-wood: #b98a5a;
+  --scene-wood-dark: #8e6540;
+  --scene-metal: #9aa7b2;
+  --scene-metal-dark: #56626b;
+  --scene-plastic: #f4f6f8;
+  --scene-screen: #1b242e;
+  --scene-screen-app: #ffffff;
+  --scene-app-selected: #dbe8ff;
+  --scene-lock: #2f5f8a;
+  --scene-ink: #243039;
+  --scene-ink-blue: #1d4ed8;
+  --scene-ink-red: #c62839;
+  --scene-sticky: #ffe066;
+  --scene-sticky-band: #f5cc3a;
+  --scene-paper: #ffffff;
+  --scene-paper-line: #b6c2cc;
+  --scene-accent: #d9861c;
+  --scene-green: #3f9c5a;
+  --scene-green-dark: #2b7342;
+  --scene-pot: #c2653a;
+  --scene-chair: #3f4b56;
+  --scene-chair-dark: #2a3744;
+  --scene-rack: #2a3744;
+  --scene-led: #34e39d;
+  --scene-wedge: #ffb547;
+  --scene-bin: #2f7fc1;
+  --scene-bin-dark: #22629a;
+  --scene-badge: #d9861c;
+  --scene-usb: #c62839;
+  --scene-mug: #ff5468;
+  --scene-shadow: rgb(36 48 57 / 0.22);
+}
+
+/* Landscape screens shorter than 1080px (e.g. a 1080p display with Windows scaling at 125% or 150%, which
+   Chrome sees as 1536x864 or 1280x720): scale every rem size with the height so each screen still fits,
+   the same way it does at 1920x1080. 16px at 1080px tall and above; portrait phones keep 16px. */
+@media (orientation: landscape) {
+  html {
+    font-size: clamp(10px, 1.48vh, 16px);
+  }
+}
+
+/* Light mode: BUI light-mode website colours. Signal colours are darker so they read as text on light backgrounds. */
+:root[data-theme='light'] {
+  color-scheme: light;
+
+  --color-accent-text: #b8700f;
+  --color-glow: color-mix(in srgb, var(--color-accent) 10%, transparent);
+
+  --color-bg: #e1e8ef;
+  --color-bg-raised: #ffffff;
+  --color-border: #c5d0da;
+  --color-text: #243039;
+  --color-text-muted: #56626b;
+
+  --color-card-border: #e1e8ef;
+  --shadow-card: 0 16px 40px rgb(36 48 57 / 0.18);
+  --shadow-card-small: 0 8px 24px rgb(36 48 57 / 0.16);
+
+  --color-bad: #c62839;
+  --color-on-bad: #ffffff;
+  --color-good: #0f7a55;
+  --color-on-good: #ffffff;
+  --color-warning: #a15c00;
+  --color-on-warning: #ffffff;
+  --color-info: #1f63b8;
+  --color-on-info: #ffffff;
+}

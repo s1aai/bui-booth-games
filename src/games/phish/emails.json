@@ -1,0 +1,993 @@
+[
+  {
+    "id": 1,
+    "isPhish": true,
+    "difficulty": 1,
+    "category": "credential-harvest",
+    "from": { "name": "Zyntra Bank Securty", "address": "alerts@zyntra-bank-secure.xyz" },
+    "subject": "Your acount has been suspended!!",
+    "body": "Dear Valued Costumer,\nWe have detected unusual activity and your acount is now suspended. You must verify you identity within 24 hours or your acount will be closed permanently.\nZyntra Bank Security Team",
+    "links": [{ "text": "Verify my acount", "href": "http://zyntra-bank-secure.xyz/login.php" }],
+    "tells": [
+      { "type": "spelling-grammar", "text": "Spelling mistakes (\"acount\", \"Costumer\")", "target": "subject", "match": "acount" },
+      { "type": "generic-greeting", "text": "Generic greeting instead of your name", "target": "body", "match": "Dear Valued Costumer" },
+      { "type": "urgency", "text": "Threatens to close your account within 24 hours", "target": "body", "match": "within 24 hours" },
+      { "type": "lookalike-domain", "text": "Not the bank's real domain", "target": "from", "match": "zyntra-bank-secure.xyz" }
+    ]
+  },
+  {
+    "id": 2,
+    "isPhish": false,
+    "difficulty": 1,
+    "category": "legit-notification",
+    "from": { "name": "CloudCrate", "address": "no-reply@cloudcrate.com" },
+    "subject": "Your March storage summary",
+    "body": "Hi Alex,\nYou used 42% of your 200 GB plan in March. No action is needed.\nYou can review your files or change your plan any time from your account settings.\nThe CloudCrate team",
+    "links": [{ "text": "View storage details", "href": "https://cloudcrate.com/account/storage" }],
+    "tells": [
+      { "type": "trusted-domain", "text": "Sent from the company's own domain", "target": "from", "match": "cloudcrate.com" },
+      { "type": "matching-link", "text": "Link goes to the same domain as the sender", "target": "link", "match": "https://cloudcrate.com" },
+      { "type": "no-sensitive-request", "text": "Asks for nothing: \"No action is needed\"", "target": "body", "match": "No action is needed" }
+    ]
+  },
+  {
+    "id": 3,
+    "isPhish": true,
+    "difficulty": 1,
+    "category": "delivery-scam",
+    "from": { "name": "ParcelPigeon Delivery", "address": "notice@parcelpigeon-redelivery.info" },
+    "subject": "Package could not be deliverd",
+    "body": "Hello Customer,\nWe tried to deliver you parcel today but nobody was home. Pay the $1.99 redelivery fee within 12 hours or your package will be returned to sender.",
+    "links": [{ "text": "Pay $1.99 now", "href": "http://parcelpigeon-redelivery.info/pay" }],
+    "tells": [
+      { "type": "payment-request", "text": "A tiny 'fee' is bait to get your card details", "target": "body", "match": "$1.99 redelivery fee" },
+      { "type": "urgency", "text": "12-hour deadline", "target": "body", "match": "within 12 hours" },
+      { "type": "lookalike-domain", "text": "Not the courier's real domain", "target": "from", "match": "parcelpigeon-redelivery.info" },
+      { "type": "spelling-grammar", "text": "Spelling mistakes (\"deliverd\", \"deliver you parcel\")", "target": "subject", "match": "deliverd" }
+    ]
+  },
+  {
+    "id": 4,
+    "isPhish": false,
+    "difficulty": 2,
+    "category": "legit-notification",
+    "from": { "name": "ParcelPigeon", "address": "tracking@parcelpigeon.com" },
+    "subject": "Your order #48213 has shipped",
+    "body": "Hi Alex,\nYour order from Lumen Books is on its way and should arrive Thursday. There's nothing to pay.\nTrack it in the ParcelPigeon app or on our website.",
+    "links": [{ "text": "Track package", "href": "https://parcelpigeon.com/track/48213" }],
+    "tells": [
+      { "type": "trusted-domain", "text": "Sent from the courier's real domain", "target": "from", "match": "parcelpigeon.com" },
+      { "type": "expected-activity", "text": "Matches an order you actually placed", "target": "subject", "match": "#48213" },
+      { "type": "matching-link", "text": "Tracking link stays on the courier's domain", "target": "link", "match": "https://parcelpigeon.com/track" },
+      { "type": "no-sensitive-request", "text": "No payment or login requested", "target": "body", "match": "There's nothing to pay" }
+    ]
+  },
+  {
+    "id": 5,
+    "isPhish": true,
+    "difficulty": 2,
+    "category": "invoice-fraud",
+    "from": { "name": "Kestrel Supplies Accounts", "address": "accounts@kestrel-supp1ies.com" },
+    "subject": "Updated bank details - invoice INV-20931",
+    "body": "Hello,\nPlease note our banking details have changed. Kindly pay the attached invoice ($4,380.00) into our new account by end of day today to avoid a late fee.\nRegards,\nMaria Chen\nAccounts Receivable",
+    "links": [{ "text": "INV-20931.pdf", "href": "https://kestrel-supp1ies.com/files/INV-20931.pdf.exe" }],
+    "tells": [
+      { "type": "payment-change", "text": "Sudden change of bank details", "target": "body", "match": "banking details have changed" },
+      { "type": "lookalike-domain", "text": "\"supp1ies\" uses a number 1 instead of an L", "target": "from", "match": "supp1ies" },
+      { "type": "urgency", "text": "Same-day deadline with a penalty", "target": "body", "match": "by end of day today" },
+      { "type": "suspicious-attachment", "text": "The 'PDF' is really a program (.pdf.exe)", "target": "link", "match": ".pdf.exe" }
+    ]
+  },
+  {
+    "id": 6,
+    "isPhish": true,
+    "difficulty": 2,
+    "category": "fake-helpdesk",
+    "from": { "name": "IT Service Desk", "address": "servicedesk@brightwell-helpdesk.com" },
+    "subject": "Action required: mailbox storage full",
+    "body": "Your mailbox has exceeded its storage limit. New emails will be rejected after 5:00 PM today.\nTo restore space, sign in and re-validate your account using the secure link below.\nIT Service Desk",
+    "links": [{ "text": "https://mail.brightwell.co/revalidate", "href": "http://brightwell-mailfix.com/signin" }],
+    "tells": [
+      { "type": "lookalike-domain", "text": "Looks internal but comes from outside (brightwell-helpdesk.com)", "target": "from", "match": "brightwell-helpdesk.com" },
+      { "type": "mismatched-link", "text": "Link text shows one address but goes to another", "target": "link", "match": "brightwell-mailfix.com" },
+      { "type": "credential-request", "text": "Asks you to sign in through an email link", "target": "body", "match": "sign in and re-validate your account" },
+      { "type": "urgency", "text": "Same-day deadline", "target": "body", "match": "after 5:00 PM today" }
+    ]
+  },
+  {
+    "id": 7,
+    "isPhish": false,
+    "difficulty": 3,
+    "category": "legit-internal",
+    "from": { "name": "Brightwell IT", "address": "it-notices@brightwell.co" },
+    "subject": "Your password expires in 3 days",
+    "body": "Hi Alex,\nYour network password expires on Friday. To change it, press Ctrl+Alt+Del on your work PC, or use the Self-Service portal you normally use.\nReminder: IT will never ask for your password by email or phone.",
+    "links": [{ "text": "Self-Service portal", "href": "https://selfservice.brightwell.co" }],
+    "tells": [
+      { "type": "trusted-domain", "text": "Sent from the real company domain", "target": "from", "match": "@brightwell.co" },
+      { "type": "matching-link", "text": "Link stays on brightwell.co", "target": "link", "match": "selfservice.brightwell.co" },
+      { "type": "verifiable-channel", "text": "Points you to a method you already know (Ctrl+Alt+Del)", "target": "body", "match": "press Ctrl+Alt+Del" },
+      { "type": "no-sensitive-request", "text": "Never asks for your password", "target": "body", "match": "IT will never ask for your password" }
+    ]
+  },
+  {
+    "id": 8,
+    "isPhish": true,
+    "difficulty": 3,
+    "category": "ceo-fraud",
+    "from": { "name": "Dana Whitfield - CEO", "address": "dana.whitfield.ceo@quikmail.net" },
+    "subject": "Quick favour - keep this between us",
+    "body": "Alex, are you at your desk? I'm stuck in board meetings all afternoon and need you to buy five $200 gift cards for a client thank-you. Please don't mention it to anyone yet, it's a surprise. Scratch off the codes and email me photos asap.\nDana\nSent from my phone",
+    "links": [],
+    "tells": [
+      { "type": "external-sender", "text": "The CEO writing from a personal webmail account", "target": "from", "match": "quikmail.net" },
+      { "type": "payment-request", "text": "Gift cards are untraceable, a classic scam payment", "target": "body", "match": "gift cards" },
+      { "type": "secrecy", "text": "Asks you to keep it secret", "target": "body", "match": "don't mention it to anyone" },
+      { "type": "authority-pressure", "text": "A senior leader who conveniently can't be reached", "target": "body", "match": "stuck in board meetings" }
+    ]
+  },
+  {
+    "id": 9,
+    "isPhish": true,
+    "difficulty": 3,
+    "category": "quishing",
+    "from": { "name": "Brightwell Security", "address": "security@brightwell-co.mfa-portal.com" },
+    "subject": "Re-enrol your authenticator before Monday",
+    "body": "As part of our security upgrade, all staff must re-register multi-factor authentication.\nScan the QR code below with your phone, sign in, and approve the prompt that appears.\nBrightwell Information Security",
+    "links": [{ "text": "QR code: scan to re-enrol", "href": "https://brightwell-co.mfa-portal.com/enrol" }],
+    "tells": [
+      { "type": "lookalike-domain", "text": "\"brightwell-co.mfa-portal.com\" is not brightwell.co", "target": "from", "match": "mfa-portal.com" },
+      { "type": "qr-code", "text": "A QR code hides where the link really goes", "target": "body", "match": "Scan the QR code" },
+      { "type": "unsolicited-mfa", "text": "Never approve a sign-in prompt you didn't start", "target": "body", "match": "approve the prompt" }
+    ]
+  },
+  {
+    "id": 10,
+    "isPhish": false,
+    "difficulty": 3,
+    "category": "legit-internal",
+    "from": { "name": "Brightwell People Team", "address": "people@brightwell.co" },
+    "subject": "URGENT: Confirm your benefits by Friday",
+    "body": "Hi Alex,\nOpen enrolment closes this Friday at 5 PM. If you don't confirm, your current benefits simply roll over unchanged.\nReview your choices in the HR portal on the intranet, or visit the People desk on level 3 with any questions.",
+    "links": [{ "text": "HR portal", "href": "https://hr.brightwell.co/benefits" }],
+    "tells": [
+      { "type": "trusted-domain", "text": "Sent from the real company domain", "target": "from", "match": "@brightwell.co" },
+      { "type": "matching-link", "text": "Link stays on brightwell.co", "target": "link", "match": "hr.brightwell.co" },
+      { "type": "no-sensitive-request", "text": "Urgent, but nothing bad happens if you wait", "target": "body", "match": "roll over unchanged" },
+      { "type": "verifiable-channel", "text": "Offers a way to check in person", "target": "body", "match": "visit the People desk" }
+    ]
+  },
+  {
+    "id": 11,
+    "isPhish": true,
+    "difficulty": 1,
+    "category": "credential-harvest",
+    "from": { "name": "Marketoo Rewards", "address": "winner@marketoo-prizes.top" },
+    "subject": "Congratulations!!! You have won a $1000 voucher",
+    "body": "Dear Lucky Winner,\nYou have been selected from millions of shoppers to recieve a $1000 Marketoo voucher. To claim you're prize, simply login with your email and password and confirm your card details today.\nMarketoo Promotions",
+    "links": [{ "text": "Claim my prize", "href": "http://marketoo-prizes.top/claim" }],
+    "tells": [
+      { "type": "too-good-to-be-true", "text": "A huge prize you never entered for", "target": "body", "match": "selected from millions" },
+      { "type": "generic-greeting", "text": "Generic greeting instead of your name", "target": "body", "match": "Dear Lucky Winner" },
+      { "type": "credential-request", "text": "Asks for your password and card details", "target": "body", "match": "login with your email and password" },
+      { "type": "spelling-grammar", "text": "Spelling mistakes (\"recieve\", \"you're prize\")", "target": "body", "match": "recieve" },
+      { "type": "lookalike-domain", "text": "Odd web address, not the shop's own", "target": "from", "match": "marketoo-prizes.top" }
+    ]
+  },
+  {
+    "id": 12,
+    "isPhish": true,
+    "difficulty": 1,
+    "category": "delivery-scam",
+    "from": { "name": "Delivery Notice", "address": "info@parcel-notify.click" },
+    "subject": "Your parcel is on hold - customs fee unpaid",
+    "body": "Dear Sir/Madam,\nYour parcel is being held at our depot because of an unpaid customs fee of $3.50. If you not pay within 48 hours the parcel will be destroyed.\nPay by card at the link below.",
+    "links": [{ "text": "Pay customs fee", "href": "http://parcel-notify.click/fee" }],
+    "tells": [
+      { "type": "generic-greeting", "text": "No name, and no courier named either", "target": "body", "match": "Dear Sir/Madam" },
+      { "type": "payment-request", "text": "A small 'fee' is bait to get your card details", "target": "body", "match": "unpaid customs fee" },
+      { "type": "urgency", "text": "Threatens to destroy the parcel in 48 hours", "target": "body", "match": "within 48 hours" },
+      { "type": "spelling-grammar", "text": "Broken English (\"If you not pay\")", "target": "body", "match": "If you not pay" },
+      { "type": "lookalike-domain", "text": "A random .click address, not a real courier", "target": "from", "match": "parcel-notify.click" }
+    ]
+  },
+  {
+    "id": 13,
+    "isPhish": true,
+    "difficulty": 1,
+    "category": "fake-helpdesk",
+    "from": { "name": "Email Administrator", "address": "admin@mail-upgrade-center.com" },
+    "subject": "Mailbox Upgrade Requied",
+    "body": "Attention Email User,\nYour mailbox will be deactivated today unless you upgrade to the new version. Click below and enter you username and password to complete the upgrade. Failure to do so will result in lost of all emails.\nEmail Admin Team",
+    "links": [{ "text": "Upgrade Now", "href": "http://mail-upgrade-center.com/login" }],
+    "tells": [
+      { "type": "generic-greeting", "text": "\"Email User\": your real IT team knows your name", "target": "body", "match": "Attention Email User" },
+      { "type": "credential-request", "text": "Asks for your username and password", "target": "body", "match": "enter you username and password" },
+      { "type": "urgency", "text": "Threatens to shut your mailbox today", "target": "body", "match": "deactivated today" },
+      { "type": "spelling-grammar", "text": "Spelling mistakes (\"Requied\", \"lost of all emails\")", "target": "subject", "match": "Requied" },
+      { "type": "external-sender", "text": "\"IT\" writing from an outside address", "target": "from", "match": "mail-upgrade-center.com" }
+    ]
+  },
+  {
+    "id": 14,
+    "isPhish": true,
+    "difficulty": 1,
+    "category": "credential-harvest",
+    "from": { "name": "Tax Refund Department", "address": "refunds@revenue-refund-online.com" },
+    "subject": "You are eligible for a tax refund of $842.17",
+    "body": "Dear Taxpayer,\nAfter the last annual calculation of your fiscal activity, you are eligible to receive a tax refund of $842.17. Please submit your bank card number and PIN within 3 days so we can process your refund.",
+    "links": [{ "text": "Get my refund", "href": "http://revenue-refund-online.com/claim" }],
+    "tells": [
+      { "type": "too-good-to-be-true", "text": "Surprise money out of nowhere", "target": "body", "match": "eligible to receive a tax refund" },
+      { "type": "generic-greeting", "text": "Generic greeting instead of your name", "target": "body", "match": "Dear Taxpayer" },
+      { "type": "credential-request", "text": "No one legitimate ever asks for your PIN", "target": "body", "match": "bank card number and PIN" },
+      { "type": "urgency", "text": "3-day deadline", "target": "body", "match": "within 3 days" },
+      { "type": "lookalike-domain", "text": "Tax offices don't email from random .com addresses", "target": "from", "match": "revenue-refund-online.com" }
+    ]
+  },
+  {
+    "id": 15,
+    "isPhish": true,
+    "difficulty": 1,
+    "category": "credential-harvest",
+    "from": { "name": "Tundra Streming", "address": "billing@tundra-stream-billing.net" },
+    "subject": "Payment declined - update now or loose access",
+    "body": "Hi user,\nWe was unable to process your last payment. Your Tundra membership will be canceled today. Update your payment infomation now to keep watching.\nTundra Support",
+    "links": [{ "text": "Update payment", "href": "http://tundra-stream-billing.net/update" }],
+    "tells": [
+      { "type": "spelling-grammar", "text": "Even the sender name is misspelled (\"Streming\")", "target": "from", "match": "Streming" },
+      { "type": "generic-greeting", "text": "\"Hi user\" instead of your name", "target": "body", "match": "Hi user" },
+      { "type": "urgency", "text": "Cancels your account today", "target": "body", "match": "canceled today" },
+      { "type": "payment-request", "text": "Wants your card details through a link", "target": "body", "match": "Update your payment infomation" },
+      { "type": "lookalike-domain", "text": "Not Tundra's real domain", "target": "from", "match": "tundra-stream-billing.net" }
+    ]
+  },
+  {
+    "id": 16,
+    "isPhish": true,
+    "difficulty": 1,
+    "category": "invoice-fraud",
+    "from": { "name": "Accounts Dept", "address": "invoices.dept88@quikmail.net" },
+    "subject": "INVOICE OVERDUE!!! PAY NOW",
+    "body": "Hello,\nPlease find attached the invoice for services rendered. Payment is overdue and legal action will be taken if not paid today. Open the attached file to see amount.\nThanks",
+    "links": [{ "text": "Invoice_8812.zip", "href": "http://file-drop-share.info/Invoice_8812.zip" }],
+    "tells": [
+      { "type": "external-sender", "text": "A business invoice from a free webmail account", "target": "from", "match": "quikmail.net" },
+      { "type": "urgency", "text": "Threatens legal action today", "target": "body", "match": "legal action will be taken" },
+      { "type": "suspicious-attachment", "text": "A zipped 'invoice' from a download site", "target": "link", "match": "Invoice_8812.zip" },
+      { "type": "generic-greeting", "text": "No company, no names, no details", "target": "body", "match": "services rendered" }
+    ]
+  },
+  {
+    "id": 17,
+    "isPhish": false,
+    "difficulty": 1,
+    "category": "legit-notification",
+    "from": { "name": "Lumen Books", "address": "orders@lumenbooks.com" },
+    "subject": "Order confirmed: #48213",
+    "body": "Hi Alex,\nThanks for your order! We've received it and will let you know when it ships.\nOrder #48213: 2 books, $36.40, paid with your saved card ending 4417.\nYou can view or cancel the order in your account.",
+    "links": [{ "text": "View order", "href": "https://lumenbooks.com/account/orders/48213" }],
+    "tells": [
+      { "type": "trusted-domain", "text": "Sent from the shop's own domain", "target": "from", "match": "lumenbooks.com" },
+      { "type": "matching-link", "text": "Link stays on lumenbooks.com", "target": "link", "match": "https://lumenbooks.com" },
+      { "type": "expected-activity", "text": "Confirms an order you just placed", "target": "body", "match": "Thanks for your order" },
+      { "type": "no-sensitive-request", "text": "Only shows the last 4 digits of your card", "target": "body", "match": "ending 4417" }
+    ]
+  },
+  {
+    "id": 18,
+    "isPhish": false,
+    "difficulty": 1,
+    "category": "legit-internal",
+    "from": { "name": "Brightwell Facilities", "address": "facilities@brightwell.co" },
+    "subject": "Lift maintenance on Wednesday",
+    "body": "Hi all,\nThe level 2 lift will be out of service on Wednesday from 8 AM to noon for routine maintenance. Please use the stairs or the east lift.\nThanks for your patience,\nFacilities Team",
+    "links": [],
+    "tells": [
+      { "type": "trusted-domain", "text": "Sent from the real company domain", "target": "from", "match": "@brightwell.co" },
+      { "type": "no-sensitive-request", "text": "Just information: no links, nothing to do", "target": "body", "match": "Please use the stairs" }
+    ]
+  },
+  {
+    "id": 19,
+    "isPhish": false,
+    "difficulty": 1,
+    "category": "legit-notification",
+    "from": { "name": "Fernway Air", "address": "checkin@fernwayair.com" },
+    "subject": "Check-in is open for your flight to Denver",
+    "body": "Hi Alex,\nOnline check-in is now open for flight FW 218 on 14 June. Check in on our website or app to choose your seat and get your boarding pass.\nHave a great trip!\nFernway Air",
+    "links": [{ "text": "Check in", "href": "https://fernwayair.com/checkin" }],
+    "tells": [
+      { "type": "trusted-domain", "text": "Sent from the airline's own domain", "target": "from", "match": "fernwayair.com" },
+      { "type": "matching-link", "text": "Link stays on fernwayair.com", "target": "link", "match": "fernwayair.com/checkin" },
+      { "type": "expected-activity", "text": "About a trip you booked", "target": "body", "match": "flight FW 218" },
+      { "type": "no-sensitive-request", "text": "Asks for no payment or password", "target": "body", "match": "choose your seat" }
+    ]
+  },
+  {
+    "id": 20,
+    "isPhish": false,
+    "difficulty": 1,
+    "category": "legit-notification",
+    "from": { "name": "Zyntra Bank", "address": "statements@zyntrabank.com" },
+    "subject": "Your monthly statement is ready",
+    "body": "Hi Alex,\nYour May statement for your everyday account is ready. For your security, we never include links in statement emails. Sign in the usual way through the Zyntra app or by typing zyntrabank.com into your browser.",
+    "links": [],
+    "tells": [
+      { "type": "trusted-domain", "text": "Sent from the bank's real domain", "target": "from", "match": "zyntrabank.com" },
+      { "type": "verifiable-channel", "text": "Tells you to go there yourself, not through a link", "target": "body", "match": "typing zyntrabank.com into your browser" },
+      { "type": "no-sensitive-request", "text": "No links and nothing to hand over", "target": "body", "match": "we never include links" }
+    ]
+  },
+  {
+    "id": 21,
+    "isPhish": false,
+    "difficulty": 1,
+    "category": "legit-notification",
+    "from": { "name": "Orbitel Mobile", "address": "billing@orbitel.com" },
+    "subject": "Your bill for June: $45.00",
+    "body": "Hi Alex,\nYour June bill of $45.00 will be paid automatically from your saved card on 20 June. You don't need to do anything.\nSee the breakdown in the Orbitel app or at orbitel.com.",
+    "links": [{ "text": "View bill", "href": "https://orbitel.com/my-account/bills" }],
+    "tells": [
+      { "type": "trusted-domain", "text": "Sent from the phone company's own domain", "target": "from", "match": "orbitel.com" },
+      { "type": "matching-link", "text": "Link stays on orbitel.com", "target": "link", "match": "https://orbitel.com" },
+      { "type": "no-sensitive-request", "text": "Nothing to do and nothing to pay by email", "target": "body", "match": "You don't need to do anything" }
+    ]
+  },
+  {
+    "id": 22,
+    "isPhish": true,
+    "difficulty": 2,
+    "category": "credential-harvest",
+    "from": { "name": "Zyntra Bank", "address": "security@zyntrabank-alerts.com" },
+    "subject": "New sign-in to your account from a new device",
+    "body": "Hi Alex,\nWe noticed a sign-in to your account from a new device (Windows, Chrome). If this wasn't you, secure your account within 2 hours by confirming your details below.\nZyntra Bank Fraud Team",
+    "links": [{ "text": "https://zyntrabank.com/secure", "href": "https://zyntrabank-alerts.com/secure/login" }],
+    "tells": [
+      { "type": "lookalike-domain", "text": "zyntrabank-alerts.com is not zyntrabank.com", "target": "from", "match": "zyntrabank-alerts.com" },
+      { "type": "mismatched-link", "text": "Link text shows zyntrabank.com but goes somewhere else", "target": "link", "match": "zyntrabank-alerts.com/secure" },
+      { "type": "urgency", "text": "2-hour deadline", "target": "body", "match": "within 2 hours" },
+      { "type": "credential-request", "text": "Wants you to 'confirm your details' through a link", "target": "body", "match": "confirming your details" }
+    ]
+  },
+  {
+    "id": 23,
+    "isPhish": true,
+    "difficulty": 2,
+    "category": "delivery-scam",
+    "from": { "name": "Halcyon Post", "address": "no-reply@halcyonpost-delivery.com" },
+    "subject": "Delivery attempt failed - reschedule",
+    "body": "Hi Alex,\nOur driver couldn't deliver your parcel (ref HP-77120) today. Choose a new delivery slot within 24 hours or it will be returned. A $2.95 rebooking charge applies.\nHalcyon Post",
+    "links": [{ "text": "Reschedule delivery", "href": "http://halcyonpost-delivery.com/reschedule" }],
+    "tells": [
+      { "type": "lookalike-domain", "text": "Extra \"-delivery\" in the domain: not Halcyon Post's real one", "target": "from", "match": "halcyonpost-delivery.com" },
+      { "type": "payment-request", "text": "Couriers don't charge small fees by email", "target": "body", "match": "$2.95 rebooking charge" },
+      { "type": "urgency", "text": "24-hour deadline", "target": "body", "match": "within 24 hours" }
+    ]
+  },
+  {
+    "id": 24,
+    "isPhish": true,
+    "difficulty": 2,
+    "category": "credential-harvest",
+    "from": { "name": "SignSwift", "address": "documents@signswift-docs.net" },
+    "subject": "Alex, you have a document to sign",
+    "body": "Hi Alex,\nBrightwell HR has sent you \"Salary Review - Confidential\" to review and sign. This request expires in 24 hours.\nSign in with your Brightwell email and password to view the document.",
+    "links": [{ "text": "Review document", "href": "https://signswift-docs.net/brightwell/login" }],
+    "tells": [
+      { "type": "lookalike-domain", "text": "Not SignSwift's real domain", "target": "from", "match": "signswift-docs.net" },
+      { "type": "credential-request", "text": "Signing a document never needs your work password", "target": "body", "match": "Sign in with your Brightwell email and password" },
+      { "type": "too-good-to-be-true", "text": "A 'confidential salary review' is bait to make you click", "target": "body", "match": "Salary Review - Confidential" },
+      { "type": "urgency", "text": "Expires in 24 hours", "target": "body", "match": "expires in 24 hours" }
+    ]
+  },
+  {
+    "id": 25,
+    "isPhish": true,
+    "difficulty": 2,
+    "category": "invoice-fraud",
+    "from": { "name": "CloudCrate Billing", "address": "invoice@cloudcrate-billing.com" },
+    "subject": "Invoice CC-99417: payment failed",
+    "body": "Hi Alex,\nWe couldn't charge your card for your CloudCrate Business plan ($299.00). Your files will be deleted in 48 hours unless you update your payment method.\nThanks,\nCloudCrate Billing",
+    "links": [{ "text": "Update payment method", "href": "https://cloudcrate-billing.com/pay" }],
+    "tells": [
+      { "type": "lookalike-domain", "text": "Real CloudCrate emails come from cloudcrate.com", "target": "from", "match": "cloudcrate-billing.com" },
+      { "type": "urgency", "text": "Threatens to delete your files in 48 hours", "target": "body", "match": "deleted in 48 hours" },
+      { "type": "payment-request", "text": "Wants card details through an email link", "target": "body", "match": "update your payment method" }
+    ]
+  },
+  {
+    "id": 26,
+    "isPhish": true,
+    "difficulty": 2,
+    "category": "mfa-fatigue",
+    "from": { "name": "VaultKey Security", "address": "alerts@vaultkey-support.com" },
+    "subject": "Approve the sign-in requests on your phone",
+    "body": "Hi Alex,\nWe're completing a security check on your VaultKey account. You'll get several sign-in prompts on your phone in the next few minutes. Please tap Approve on each one so we can verify your device.\nVaultKey Support",
+    "links": [],
+    "tells": [
+      { "type": "unsolicited-mfa", "text": "Approving prompts you didn't start lets an attacker in", "target": "body", "match": "tap Approve on each one" },
+      { "type": "lookalike-domain", "text": "Not VaultKey's real domain", "target": "from", "match": "vaultkey-support.com" }
+    ]
+  },
+  {
+    "id": 27,
+    "isPhish": true,
+    "difficulty": 2,
+    "category": "quishing",
+    "from": { "name": "City Parking Services", "address": "notices@cityparking-pay.info" },
+    "subject": "Unpaid parking notice PCN-4471",
+    "body": "Hi Alex,\nA parking charge of $65 was issued to your vehicle. Pay within 7 days to avoid it rising to $130.\nFor fast payment, scan the QR code with your phone.",
+    "links": [{ "text": "QR code: scan to pay", "href": "http://cityparking-pay.info/p/4471" }],
+    "tells": [
+      { "type": "qr-code", "text": "A QR code hides where the payment page really is", "target": "body", "match": "scan the QR code" },
+      { "type": "payment-request", "text": "Asks for money by email", "target": "body", "match": "parking charge of $65" },
+      { "type": "urgency", "text": "Threatens to double the charge", "target": "body", "match": "rising to $130" },
+      { "type": "lookalike-domain", "text": "A .info payment site, not an official one", "target": "from", "match": "cityparking-pay.info" }
+    ]
+  },
+  {
+    "id": 28,
+    "isPhish": false,
+    "difficulty": 2,
+    "category": "legit-notification",
+    "from": { "name": "VaultKey", "address": "security@vaultkey.com" },
+    "subject": "New sign-in to VaultKey on Windows",
+    "body": "Hi Alex,\nYou signed in to VaultKey on a new Windows PC today at 9:14 AM. If this was you, there's nothing to do.\nIf it wasn't, open the VaultKey app and change your master password. We will never ask for it by email.",
+    "links": [{ "text": "Review recent activity", "href": "https://vaultkey.com/account/activity" }],
+    "tells": [
+      { "type": "trusted-domain", "text": "Sent from VaultKey's real domain", "target": "from", "match": "vaultkey.com" },
+      { "type": "matching-link", "text": "Link stays on vaultkey.com", "target": "link", "match": "https://vaultkey.com" },
+      { "type": "verifiable-channel", "text": "Sends you to the app, not a link", "target": "body", "match": "open the VaultKey app" },
+      { "type": "no-sensitive-request", "text": "Never asks for your password", "target": "body", "match": "never ask for it by email" }
+    ]
+  },
+  {
+    "id": 29,
+    "isPhish": false,
+    "difficulty": 2,
+    "category": "legit-notification",
+    "from": { "name": "Halcyon Post", "address": "updates@halcyonpost.com" },
+    "subject": "Your parcel arrives today between 1 and 3 PM",
+    "body": "Hi Alex,\nGood news: your parcel HP-80553 from Kestrel Supplies is out for delivery and should arrive between 1 and 3 PM.\nNot home? You can pick a safe place on the tracking page. No payment is needed.",
+    "links": [{ "text": "Track parcel", "href": "https://halcyonpost.com/track/HP-80553" }],
+    "tells": [
+      { "type": "trusted-domain", "text": "Sent from the courier's real domain", "target": "from", "match": "halcyonpost.com" },
+      { "type": "matching-link", "text": "Tracking link stays on halcyonpost.com", "target": "link", "match": "halcyonpost.com/track" },
+      { "type": "no-sensitive-request", "text": "Asks for no money", "target": "body", "match": "No payment is needed" }
+    ]
+  },
+  {
+    "id": 30,
+    "isPhish": false,
+    "difficulty": 2,
+    "category": "legit-internal",
+    "from": { "name": "Brightwell Finance", "address": "finance@brightwell.co" },
+    "subject": "Your expense claim EXP-3310 has been approved",
+    "body": "Hi Alex,\nYour expense claim for $86.20 (client lunch, 3 June) has been approved and will be paid with your next salary.\nYou can see the details in the expenses app on the intranet.",
+    "links": [{ "text": "View claim", "href": "https://expenses.brightwell.co/claims/EXP-3310" }],
+    "tells": [
+      { "type": "trusted-domain", "text": "Sent from the real company domain", "target": "from", "match": "@brightwell.co" },
+      { "type": "matching-link", "text": "Link stays on brightwell.co", "target": "link", "match": "expenses.brightwell.co" },
+      { "type": "expected-activity", "text": "Matches a claim you submitted", "target": "body", "match": "client lunch, 3 June" }
+    ]
+  },
+  {
+    "id": 31,
+    "isPhish": false,
+    "difficulty": 2,
+    "category": "legit-notification",
+    "from": { "name": "SignSwift", "address": "no-reply@signswift.com" },
+    "subject": "Priya Nair sent you a document to sign",
+    "body": "Hi Alex,\nPriya Nair (priya.nair@brightwell.co) sent you \"Kestrel Supplies contract renewal\" to sign.\nMessage from Priya: \"Here's the renewal we discussed on Monday.\"\nReview and sign it on SignSwift.",
+    "links": [{ "text": "Review document", "href": "https://signswift.com/sign/7f3k2" }],
+    "tells": [
+      { "type": "trusted-domain", "text": "Sent from SignSwift's real domain", "target": "from", "match": "signswift.com" },
+      { "type": "matching-link", "text": "Link stays on signswift.com", "target": "link", "match": "https://signswift.com" },
+      { "type": "expected-activity", "text": "From a colleague, about something you discussed", "target": "body", "match": "the renewal we discussed on Monday" }
+    ]
+  },
+  {
+    "id": 32,
+    "isPhish": false,
+    "difficulty": 2,
+    "category": "legit-notification",
+    "from": { "name": "Tundra", "address": "hello@tundra.tv" },
+    "subject": "Your Tundra plan price is changing",
+    "body": "Hi Alex,\nFrom 1 August, the Standard plan will cost $12.99 a month. Your plan will update automatically; you don't need to do anything.\nIf you'd like to change or cancel your plan, go to Account in the Tundra app.",
+    "links": [{ "text": "Learn more", "href": "https://tundra.tv/help/pricing" }],
+    "tells": [
+      { "type": "trusted-domain", "text": "Sent from Tundra's real domain", "target": "from", "match": "tundra.tv" },
+      { "type": "matching-link", "text": "Link stays on tundra.tv", "target": "link", "match": "https://tundra.tv" },
+      { "type": "no-sensitive-request", "text": "Nothing to do and no card details asked for", "target": "body", "match": "you don't need to do anything" },
+      { "type": "verifiable-channel", "text": "Points you to the app you already use", "target": "body", "match": "Account in the Tundra app" }
+    ]
+  },
+  {
+    "id": 33,
+    "isPhish": false,
+    "difficulty": 2,
+    "category": "legit-internal",
+    "from": { "name": "Brightwell IT", "address": "it-notices@brightwell.co" },
+    "subject": "Planned outage: email offline Saturday 10 PM - 2 AM",
+    "body": "Hi all,\nWe're upgrading the email servers this Saturday from 10 PM to 2 AM. You don't need to do anything; email will simply be unavailable during this window.\nQuestions? Call the IT desk on extension 4400.",
+    "links": [],
+    "tells": [
+      { "type": "trusted-domain", "text": "Sent from the real company domain", "target": "from", "match": "@brightwell.co" },
+      { "type": "no-sensitive-request", "text": "Just a heads-up: nothing to click or enter", "target": "body", "match": "You don't need to do anything" },
+      { "type": "verifiable-channel", "text": "Gives an internal number you can check", "target": "body", "match": "extension 4400" }
+    ]
+  },
+  {
+    "id": 34,
+    "isPhish": true,
+    "difficulty": 3,
+    "category": "ceo-fraud",
+    "from": { "name": "Tom Okafor (CFO)", "address": "tom.okafor@brightwell.co.uk" },
+    "subject": "Re: Q3 supplier payment",
+    "body": "Hi Alex,\nFollowing up on the Kestrel payment. Their new account details are below; please process the $18,500 transfer today, as the deal closes tonight. I'm in back-to-back meetings, so email is best.\nThanks,\nTom",
+    "links": [],
+    "tells": [
+      { "type": "lookalike-domain", "text": "brightwell.co.uk is not the company domain, brightwell.co", "target": "from", "match": "brightwell.co.uk" },
+      { "type": "payment-change", "text": "Pay a supplier into a new account", "target": "body", "match": "new account details" },
+      { "type": "urgency", "text": "Must be done tonight", "target": "body", "match": "the deal closes tonight" },
+      { "type": "authority-pressure", "text": "A senior leader who stops you checking by phone", "target": "body", "match": "back-to-back meetings, so email is best" }
+    ]
+  },
+  {
+    "id": 35,
+    "isPhish": true,
+    "difficulty": 3,
+    "category": "mfa-fatigue",
+    "from": { "name": "Brightwell IT Security", "address": "it-security@brlghtwell.co" },
+    "subject": "Expected MFA prompts during migration today",
+    "body": "Hi Alex,\nWe're migrating your account to the new sign-in system this afternoon. You may see 2-3 MFA prompts on your phone between 2 and 3 PM. Please approve them so the migration completes; otherwise you'll be locked out tomorrow.",
+    "links": [],
+    "tells": [
+      { "type": "lookalike-domain", "text": "\"brlghtwell\": an L where the I should be", "target": "from", "match": "brlghtwell.co" },
+      { "type": "unsolicited-mfa", "text": "Never approve a sign-in prompt you didn't start", "target": "body", "match": "Please approve them" },
+      { "type": "urgency", "text": "Threatens to lock you out", "target": "body", "match": "locked out tomorrow" }
+    ]
+  },
+  {
+    "id": 36,
+    "isPhish": true,
+    "difficulty": 3,
+    "category": "credential-harvest",
+    "from": { "name": "Priya Nair via CloudCrate", "address": "share@cloudcrate-share.com" },
+    "subject": "Priya Nair shared \"Team offsite - agenda\" with you",
+    "body": "Priya Nair has shared a folder with you:\n\"Team offsite - agenda and room list\"\nThis link works for Brightwell accounts only. Sign in with your work email and password to open it.",
+    "links": [{ "text": "Open folder", "href": "https://cloudcrate-share.com/s/brightwell-offsite" }],
+    "tells": [
+      { "type": "lookalike-domain", "text": "Real CloudCrate emails come from cloudcrate.com", "target": "from", "match": "cloudcrate-share.com" },
+      { "type": "credential-request", "text": "Opening a shared file shouldn't need your work password", "target": "body", "match": "Sign in with your work email and password" }
+    ]
+  },
+  {
+    "id": 37,
+    "isPhish": true,
+    "difficulty": 3,
+    "category": "credential-harvest",
+    "from": { "name": "Brightwell Payroll", "address": "payroll@brightwell-payroll.com" },
+    "subject": "Action needed: confirm your bank details before payday",
+    "body": "Hi Alex,\nWe're moving to a new payroll provider this month. To make sure your salary arrives on the 25th, confirm your bank details and sign in to the new portal by Thursday.\nBrightwell Payroll Team",
+    "links": [{ "text": "payroll.brightwell.co", "href": "https://brightwell-payroll.com/verify" }],
+    "tells": [
+      { "type": "lookalike-domain", "text": "brightwell-payroll.com is outside the company", "target": "from", "match": "brightwell-payroll.com" },
+      { "type": "mismatched-link", "text": "Link text says payroll.brightwell.co but goes elsewhere", "target": "link", "match": "brightwell-payroll.com/verify" },
+      { "type": "credential-request", "text": "Asks for your bank details and login", "target": "body", "match": "confirm your bank details" },
+      { "type": "urgency", "text": "Your pay depends on acting by Thursday", "target": "body", "match": "by Thursday" }
+    ]
+  },
+  {
+    "id": 38,
+    "isPhish": true,
+    "difficulty": 3,
+    "category": "quishing",
+    "from": { "name": "Brightwell Facilities", "address": "facilities@brightwell-co.com" },
+    "subject": "New car park permits: register by Friday",
+    "body": "Hi all,\nThe car park is moving to digital permits next month. Scan the QR code below with your phone and sign in with your Brightwell account to register your number plate.\nUnregistered cars will be clamped from the 1st.\nFacilities Team",
+    "links": [{ "text": "QR code: scan to register", "href": "https://brightwell-co.com/parking/register" }],
+    "tells": [
+      { "type": "lookalike-domain", "text": "brightwell-co.com (with a hyphen) isn't brightwell.co", "target": "from", "match": "brightwell-co.com" },
+      { "type": "qr-code", "text": "The QR code moves you to your phone, away from work protections", "target": "body", "match": "Scan the QR code" },
+      { "type": "credential-request", "text": "A parking permit shouldn't need your work login", "target": "body", "match": "sign in with your Brightwell account" },
+      { "type": "urgency", "text": "Threatens to clamp your car", "target": "body", "match": "clamped from the 1st" }
+    ]
+  },
+  {
+    "id": 39,
+    "isPhish": true,
+    "difficulty": 3,
+    "category": "ceo-fraud",
+    "from": { "name": "Dana Whitfield", "address": "dana.whitfield@brightweII.co" },
+    "subject": "Confidential: staff salary list",
+    "body": "Alex,\nI'm meeting the board in 20 minutes and need the current salary list for the whole team. Please export it from the HR system and email it to me directly. Keep this confidential for now.\nDana",
+    "links": [],
+    "tells": [
+      { "type": "lookalike-domain", "text": "\"brightweII\" uses capital I's instead of L's", "target": "from", "match": "brightweII.co" },
+      { "type": "authority-pressure", "text": "The CEO leaning on you to skip the usual process", "target": "body", "match": "I'm meeting the board" },
+      { "type": "urgency", "text": "Only 20 minutes to act", "target": "body", "match": "in 20 minutes" },
+      { "type": "secrecy", "text": "Asks you to keep it quiet", "target": "body", "match": "Keep this confidential" }
+    ]
+  },
+  {
+    "id": 40,
+    "isPhish": false,
+    "difficulty": 3,
+    "category": "legit-notification",
+    "from": { "name": "VaultKey", "address": "no-reply@vaultkey.com" },
+    "subject": "Reset your VaultKey password - link expires in 15 minutes",
+    "body": "Hi Alex,\nWe received a request to reset your password from the VaultKey app just now. Use the button below within 15 minutes.\nIf you didn't ask for this, ignore this email; your password won't change.",
+    "links": [{ "text": "Reset password", "href": "https://vaultkey.com/reset?token=8c1e" }],
+    "tells": [
+      { "type": "trusted-domain", "text": "Sent from VaultKey's real domain", "target": "from", "match": "vaultkey.com" },
+      { "type": "matching-link", "text": "Link stays on vaultkey.com", "target": "link", "match": "https://vaultkey.com/reset" },
+      { "type": "expected-activity", "text": "You just asked for this reset", "target": "body", "match": "request to reset your password" },
+      { "type": "no-sensitive-request", "text": "Safe to ignore: nothing happens if you don't act", "target": "body", "match": "your password won't change" }
+    ]
+  },
+  {
+    "id": 41,
+    "isPhish": false,
+    "difficulty": 3,
+    "category": "legit-internal",
+    "from": { "name": "Dana Whitfield", "address": "dana.whitfield@brightwell.co" },
+    "subject": "Important: all-hands meeting moved to 9 AM tomorrow",
+    "body": "Hi everyone,\nWe've moved tomorrow's all-hands to 9 AM in the main auditorium so the Sydney team can join. It's also on the shared calendar.\nNo preparation needed; just bring your questions.\nDana",
+    "links": [],
+    "tells": [
+      { "type": "trusted-domain", "text": "The CEO's real company address", "target": "from", "match": "@brightwell.co" },
+      { "type": "no-sensitive-request", "text": "Asks for nothing but your attendance", "target": "body", "match": "No preparation needed" },
+      { "type": "verifiable-channel", "text": "You can confirm it on the shared calendar", "target": "body", "match": "on the shared calendar" }
+    ]
+  },
+  {
+    "id": 42,
+    "isPhish": false,
+    "difficulty": 3,
+    "category": "legit-internal",
+    "from": { "name": "Brightwell IT", "address": "it-notices@brightwell.co" },
+    "subject": "Mandatory: install the security update by Wednesday",
+    "body": "Hi Alex,\nA critical security update is ready for your laptop. Install it from the Brightwell App Store on your Start menu before Wednesday, when it will install automatically and restart your PC.\nWe'll never send updates as email attachments.",
+    "links": [],
+    "tells": [
+      { "type": "trusted-domain", "text": "Sent from the real company domain", "target": "from", "match": "@brightwell.co" },
+      { "type": "verifiable-channel", "text": "Uses a tool already on your PC, not a link", "target": "body", "match": "Brightwell App Store on your Start menu" },
+      { "type": "no-sensitive-request", "text": "No attachment, no link, no login", "target": "body", "match": "never send updates as email attachments" }
+    ]
+  },
+  {
+    "id": 43,
+    "isPhish": false,
+    "difficulty": 3,
+    "category": "legit-notification",
+    "from": { "name": "Zyntra Bank", "address": "alerts@zyntrabank.com" },
+    "subject": "Did you just spend $1,240 at Fernway Air?",
+    "body": "Hi Alex,\nWe paused a $1,240.00 card payment to Fernway Air at 10:52 AM. If it was you, approve it in the Zyntra app.\nIf not, call the number on the back of your card. We'll never ask for your PIN or passcode.",
+    "links": [],
+    "tells": [
+      { "type": "trusted-domain", "text": "Sent from the bank's real domain", "target": "from", "match": "zyntrabank.com" },
+      { "type": "verifiable-channel", "text": "Tells you to call a number you already have", "target": "body", "match": "call the number on the back of your card" },
+      { "type": "no-sensitive-request", "text": "Never asks for your PIN", "target": "body", "match": "never ask for your PIN" }
+    ]
+  },
+  {
+    "id": 44,
+    "isPhish": false,
+    "difficulty": 3,
+    "category": "legit-notification",
+    "from": { "name": "Kestrel Supplies", "address": "accounts@kestrelsupplies.com" },
+    "subject": "Invoice INV-21007 for your May order",
+    "body": "Hello Alex,\nPlease find invoice INV-21007 ($1,120.00) for your May order, due in 30 days. Payment details are unchanged from previous invoices.\nIf you have questions, call your account manager, Leo, on the number in your contract.",
+    "links": [{ "text": "INV-21007.pdf", "href": "https://kestrelsupplies.com/invoices/INV-21007.pdf" }],
+    "tells": [
+      { "type": "trusted-domain", "text": "Sent from the supplier's real domain", "target": "from", "match": "kestrelsupplies.com" },
+      { "type": "matching-link", "text": "A real PDF on the supplier's own site", "target": "link", "match": "kestrelsupplies.com/invoices" },
+      { "type": "no-sensitive-request", "text": "Bank details unchanged: no 'new account' trick", "target": "body", "match": "Payment details are unchanged" },
+      { "type": "verifiable-channel", "text": "Points you to a contact you already have", "target": "body", "match": "the number in your contract" }
+    ]
+  },
+  {
+    "id": 45,
+    "isPhish": true,
+    "difficulty": 1,
+    "category": "credential-harvest",
+    "from": { "name": "Google", "address": "no-reply@accounts.g00gle.com" },
+    "subject": "Critical security alert!!",
+    "body": "Hi,\nSomeone just used you password to try to sign in to your Google Account. Review your activity within 24 hours or your account will be locked.",
+    "links": [{ "text": "Check activity", "href": "https://accounts.g00gle.com/review" }],
+    "tells": [
+      { "type": "lookalike-domain", "text": "g00gle uses zeros instead of the letter o", "target": "from", "match": "g00gle.com" },
+      { "type": "urgency", "text": "Threatens to lock your account within 24 hours", "target": "body", "match": "within 24 hours" },
+      { "type": "spelling-grammar", "text": "Mistake: \"you password\"", "target": "body", "match": "you password" }
+    ]
+  },
+  {
+    "id": 46,
+    "isPhish": true,
+    "difficulty": 1,
+    "category": "credential-harvest",
+    "from": { "name": "PayPal Service", "address": "service@paypa1.com" },
+    "subject": "Your account has been limited",
+    "body": "Dear Customer,\nWe noticed unusual activity and have limited your PayPal account. To restore full access, confirm your card number and security code on our secure page today.",
+    "links": [{ "text": "Restore access", "href": "https://www.paypa1.com/restore" }],
+    "tells": [
+      { "type": "lookalike-domain", "text": "paypa1 ends in the number 1, not the letter l", "target": "from", "match": "paypa1.com" },
+      { "type": "credential-request", "text": "Asks for your card number and security code", "target": "body", "match": "confirm your card number and security code" },
+      { "type": "generic-greeting", "text": "Generic greeting instead of your name", "target": "body", "match": "Dear Customer" }
+    ]
+  },
+  {
+    "id": 47,
+    "isPhish": true,
+    "difficulty": 1,
+    "category": "delivery-scam",
+    "from": { "name": "DHL Express", "address": "support@dhl-parcel-track.com" },
+    "subject": "Customs fee due for your parcel",
+    "body": "Dear customer,\nYour parcel is being held at customs. Pay the $2.99 import fee within 48 hours or it will be returned to the sender.",
+    "links": [{ "text": "Pay $2.99 now", "href": "https://dhl-parcel-track.com/pay" }],
+    "tells": [
+      { "type": "lookalike-domain", "text": "Extra words added to DHL's name: real DHL emails come from dhl.com", "target": "from", "match": "dhl-parcel-track.com" },
+      { "type": "payment-request", "text": "A tiny 'fee' is bait to get your card details", "target": "body", "match": "$2.99 import fee" },
+      { "type": "urgency", "text": "48-hour deadline", "target": "body", "match": "within 48 hours" },
+      { "type": "generic-greeting", "text": "Generic greeting instead of your name", "target": "body", "match": "Dear customer" }
+    ]
+  },
+  {
+    "id": 48,
+    "isPhish": true,
+    "difficulty": 1,
+    "category": "credential-harvest",
+    "from": { "name": "Netflix", "address": "billing@netflix-account-update.com" },
+    "subject": "Your membership is on hold",
+    "body": "Dear Member,\nWe were unable to process you last payment, so your membership is on hold. Update your billing detials within 24 hours to keep watching.",
+    "links": [{ "text": "Update payment", "href": "https://netflix-account-update.com/billing" }],
+    "tells": [
+      { "type": "lookalike-domain", "text": "Netflix's name with extra words added: not netflix.com", "target": "from", "match": "netflix-account-update.com" },
+      { "type": "spelling-grammar", "text": "Mistakes: \"you last payment\", \"detials\"", "target": "body", "match": "detials" },
+      { "type": "urgency", "text": "24-hour deadline", "target": "body", "match": "within 24 hours" },
+      { "type": "generic-greeting", "text": "Generic greeting instead of your name", "target": "body", "match": "Dear Member" }
+    ]
+  },
+  {
+    "id": 49,
+    "isPhish": true,
+    "difficulty": 1,
+    "category": "fake-helpdesk",
+    "from": { "name": "Microsoft Security", "address": "alerts@microsoft-security-alerts.com" },
+    "subject": "WARNING: Virus detected on your computer",
+    "body": "Your computer is infected with 3 viruses! Your files and passwords are at risk. Download our cleanup tool now and run it immediately to remove the threats.",
+    "links": [{ "text": "Download cleanup tool", "href": "https://microsoft-security-alerts.com/CleanupTool.exe" }],
+    "tells": [
+      { "type": "lookalike-domain", "text": "Not microsoft.com: extra words make a different domain", "target": "from", "match": "microsoft-security-alerts.com" },
+      { "type": "suspicious-attachment", "text": "Wants you to download and run a program (.exe)", "target": "link", "match": ".exe" },
+      { "type": "urgency", "text": "Scare tactics: \"run it immediately\"", "target": "body", "match": "run it immediately" }
+    ]
+  },
+  {
+    "id": 50,
+    "isPhish": true,
+    "difficulty": 2,
+    "category": "credential-harvest",
+    "from": { "name": "Amazon", "address": "order-update@arnazon.com" },
+    "subject": "Action needed: your order is on hold",
+    "body": "Hi Alex,\nYour order #113-4471 is on hold because your payment method was declined. Please update your payment details within 48 hours to avoid cancellation.\nThank you for shopping with us.",
+    "links": [{ "text": "Update payment method", "href": "https://www.arnazon.com/account/payment" }],
+    "tells": [
+      { "type": "lookalike-domain", "text": "\"rn\" is pretending to be an \"m\": arnazon, not amazon", "target": "from", "match": "arnazon.com" },
+      { "type": "credential-request", "text": "Asks for payment details through an email link", "target": "body", "match": "update your payment details" },
+      { "type": "urgency", "text": "48-hour deadline", "target": "body", "match": "within 48 hours" }
+    ]
+  },
+  {
+    "id": 51,
+    "isPhish": true,
+    "difficulty": 2,
+    "category": "credential-harvest",
+    "from": { "name": "LinkedIn", "address": "notifications@linkedln.com" },
+    "subject": "You appeared in 9 searches this week",
+    "body": "Hi Alex,\nYou appeared in 9 searches this week, including recruiters from 2 companies. Sign in to see who's been looking at your profile.",
+    "links": [{ "text": "See all searches", "href": "https://www.linkedln.com/login" }],
+    "tells": [
+      { "type": "lookalike-domain", "text": "linkedln: the \"i\" is really a lowercase L", "target": "from", "match": "linkedln.com" },
+      { "type": "credential-request", "text": "The link goes to a sign-in page on the fake domain", "target": "link", "match": "linkedln.com/login" }
+    ]
+  },
+  {
+    "id": 52,
+    "isPhish": true,
+    "difficulty": 2,
+    "category": "credential-harvest",
+    "from": { "name": "Microsoft Teams", "address": "noreply@teams.micorsoft.com" },
+    "subject": "You have 3 missed messages from Priya Nair",
+    "body": "Hi Alex,\nPriya Nair sent you messages in Teams while you were away:\n\"Can you look at this before the 2 PM call?\"\nSign in to reply before the meeting starts.",
+    "links": [{ "text": "Reply in Teams", "href": "https://teams.micorsoft.com/signin" }],
+    "tells": [
+      { "type": "lookalike-domain", "text": "Letters swapped: micorsoft, not microsoft", "target": "from", "match": "micorsoft.com" },
+      { "type": "credential-request", "text": "Teams messages open in the Teams app, not a sign-in page from an email", "target": "link", "match": "micorsoft.com/signin" },
+      { "type": "urgency", "text": "Rushes you: \"before the meeting starts\"", "target": "body", "match": "before the meeting starts" }
+    ]
+  },
+  {
+    "id": 53,
+    "isPhish": true,
+    "difficulty": 2,
+    "category": "credential-harvest",
+    "from": { "name": "DocuSign", "address": "dse@docusgn.com" },
+    "subject": "Tom Okafor sent you a document to sign",
+    "body": "Tom Okafor sent you \"FY26 bonus letter - Alex\" to review and sign.\nTo view the document, sign in with your Brightwell email and password.",
+    "links": [{ "text": "Review document", "href": "https://docusgn.com/sign/8f2k" }],
+    "tells": [
+      { "type": "lookalike-domain", "text": "A letter is missing: docusgn, not docusign", "target": "from", "match": "docusgn.com" },
+      { "type": "credential-request", "text": "Signing a document never needs your work password", "target": "body", "match": "sign in with your Brightwell email and password" },
+      { "type": "too-good-to-be-true", "text": "A 'bonus letter' is bait to make you click", "target": "body", "match": "bonus letter" }
+    ]
+  },
+  {
+    "id": 54,
+    "isPhish": true,
+    "difficulty": 2,
+    "category": "credential-harvest",
+    "from": { "name": "Dropbox", "address": "no-reply@dropbbox.com" },
+    "subject": "Dana Whitfield shared \"Team salaries 2026.xlsx\" with you",
+    "body": "Hi Alex,\nDana Whitfield shared a file with you:\n\"Team salaries 2026.xlsx\"\nThis file is confidential. Sign in with your work account to view it.",
+    "links": [{ "text": "View file", "href": "https://www.dropbbox.com/s/team-salaries" }],
+    "tells": [
+      { "type": "lookalike-domain", "text": "Doubled letter: dropbbox, not dropbox", "target": "from", "match": "dropbbox.com" },
+      { "type": "credential-request", "text": "Asks for your work sign-in to open a shared file", "target": "body", "match": "Sign in with your work account" },
+      { "type": "too-good-to-be-true", "text": "Everyone's salaries: bait that's hard to resist", "target": "body", "match": "Team salaries 2026.xlsx" }
+    ]
+  },
+  {
+    "id": 55,
+    "isPhish": true,
+    "difficulty": 3,
+    "category": "credential-harvest",
+    "from": { "name": "Microsoft 365", "address": "no-reply@login.microsoftonline.com.account-check.net" },
+    "subject": "Tom Okafor shared \"FY26 budget - final.xlsx\" with you",
+    "body": "Hi Alex,\nTom Okafor shared a file with you in SharePoint:\n\"FY26 budget - final.xlsx\"\nYour session has expired, so you'll need to sign in again to open it.",
+    "links": [{ "text": "Open in SharePoint", "href": "https://login.microsoftonline.com.account-check.net/sharepoint" }],
+    "tells": [
+      { "type": "lookalike-domain", "text": "The real domain is the last part, account-check.net. The Microsoft name in front is a disguise", "target": "from", "match": "account-check.net" },
+      { "type": "lookalike-domain", "text": "The link goes to account-check.net too", "target": "link", "match": "account-check.net/sharepoint" },
+      { "type": "credential-request", "text": "Asks you to sign in again through an email link", "target": "body", "match": "sign in again to open it" }
+    ]
+  },
+  {
+    "id": 56,
+    "isPhish": true,
+    "difficulty": 3,
+    "category": "credential-harvest",
+    "from": { "name": "Apple", "address": "no_reply@xn--pple-43d.com" },
+    "subject": "Your Apple ID was used to sign in to iCloud",
+    "body": "Dear Alex,\nYour Apple ID was used to sign in to iCloud on a Windows PC in another country. If this wasn't you, lock your Apple ID now to protect your photos and payment details.",
+    "links": [{ "text": "https://appleid.apple.com/lock", "href": "https://xn--pple-43d.com/lock" }],
+    "tells": [
+      { "type": "lookalike-domain", "text": "\"xn--\" means lookalike letters from another alphabet: this is not apple.com", "target": "from", "match": "xn--pple-43d.com" },
+      { "type": "mismatched-link", "text": "The link shows appleid.apple.com but really goes somewhere else", "target": "link", "match": "xn--pple-43d.com/lock" },
+      { "type": "urgency", "text": "Pressure to act \"now\"", "target": "body", "match": "lock your Apple ID now" }
+    ]
+  },
+  {
+    "id": 57,
+    "isPhish": false,
+    "difficulty": 1,
+    "category": "legit-notification",
+    "from": { "name": "Amazon.com", "address": "shipment-tracking@amazon.com" },
+    "subject": "Your Amazon.com order has shipped",
+    "body": "Hi Alex,\nYour package with \"USB-C charging cable (2 m)\" is on its way and should arrive tomorrow. There's nothing you need to do.",
+    "links": [{ "text": "Track package", "href": "https://www.amazon.com/your-orders" }],
+    "tells": [
+      { "type": "trusted-domain", "text": "Sent from Amazon's real domain", "target": "from", "match": "@amazon.com" },
+      { "type": "matching-link", "text": "The link stays on amazon.com", "target": "link", "match": "www.amazon.com" },
+      { "type": "no-sensitive-request", "text": "Asks for nothing", "target": "body", "match": "There's nothing you need to do" }
+    ]
+  },
+  {
+    "id": 58,
+    "isPhish": false,
+    "difficulty": 1,
+    "category": "legit-notification",
+    "from": { "name": "LinkedIn", "address": "messages-noreply@linkedin.com" },
+    "subject": "Priya Nair endorsed you for Project Management",
+    "body": "Hi Alex,\nPriya Nair just endorsed you for Project Management. Endorsements help people see what you're good at.\nYou can manage your skills from your profile.",
+    "links": [{ "text": "View your profile", "href": "https://www.linkedin.com/in/alex" }],
+    "tells": [
+      { "type": "trusted-domain", "text": "Sent from LinkedIn's real domain (linkedin, with an i)", "target": "from", "match": "linkedin.com" },
+      { "type": "matching-link", "text": "The link stays on linkedin.com", "target": "link", "match": "www.linkedin.com" },
+      { "type": "expected-activity", "text": "From a colleague you actually know", "target": "body", "match": "Priya Nair just endorsed you" }
+    ]
+  },
+  {
+    "id": 59,
+    "isPhish": false,
+    "difficulty": 1,
+    "category": "legit-notification",
+    "from": { "name": "PayPal", "address": "service@paypal.com" },
+    "subject": "Receipt for your payment to Lumen Books",
+    "body": "Hi Alex,\nYou sent $24.99 USD to Lumen Books.\nTransaction ID: 7XK41928RJ553704\nIt may take a few minutes for this payment to appear in your account.",
+    "links": [{ "text": "View transaction", "href": "https://www.paypal.com/activity" }],
+    "tells": [
+      { "type": "trusted-domain", "text": "Sent from PayPal's real domain (paypal, with an l)", "target": "from", "match": "paypal.com" },
+      { "type": "expected-activity", "text": "A receipt for something you actually bought", "target": "subject", "match": "Lumen Books" },
+      { "type": "matching-link", "text": "The link stays on paypal.com", "target": "link", "match": "www.paypal.com" }
+    ]
+  },
+  {
+    "id": 60,
+    "isPhish": false,
+    "difficulty": 2,
+    "category": "legit-notification",
+    "from": { "name": "Microsoft account team", "address": "account-security-noreply@accountprotection.microsoft.com" },
+    "subject": "Microsoft account security code",
+    "body": "Please use the following security code for the Microsoft account al***@brightwell.co.\nSecurity code: 482913\nIf you didn't request this code, you can safely ignore this email. Someone else might have typed your email address by mistake.",
+    "links": [],
+    "tells": [
+      { "type": "trusted-domain", "text": "accountprotection.microsoft.com is part of Microsoft's real domain", "target": "from", "match": "microsoft.com" },
+      { "type": "expected-activity", "text": "A code you asked for while signing in", "target": "subject", "match": "security code" },
+      { "type": "no-sensitive-request", "text": "Never asks you to send the code to anyone", "target": "body", "match": "you can safely ignore this email" }
+    ]
+  },
+  {
+    "id": 61,
+    "isPhish": false,
+    "difficulty": 2,
+    "category": "legit-notification",
+    "from": { "name": "DHL Express", "address": "noreply@dhl.com" },
+    "subject": "Your shipment 4827193650 is out for delivery",
+    "body": "Hi Alex,\nYour shipment from Kestrel Supplies is out for delivery and will arrive today between 1 PM and 5 PM. No payment is due.",
+    "links": [{ "text": "Track shipment", "href": "https://www.dhl.com/track?id=4827193650" }],
+    "tells": [
+      { "type": "trusted-domain", "text": "Sent from DHL's real domain, dhl.com", "target": "from", "match": "@dhl.com" },
+      { "type": "no-sensitive-request", "text": "No fee or payment requested", "target": "body", "match": "No payment is due" },
+      { "type": "matching-link", "text": "The tracking link stays on dhl.com", "target": "link", "match": "www.dhl.com" },
+      { "type": "expected-activity", "text": "From a supplier you really order from", "target": "body", "match": "Kestrel Supplies" }
+    ]
+  },
+  {
+    "id": 62,
+    "isPhish": false,
+    "difficulty": 2,
+    "category": "legit-notification",
+    "from": { "name": "Apple", "address": "no_reply@email.apple.com" },
+    "subject": "Your receipt from Apple",
+    "body": "Hi Alex,\niCloud+ with 200 GB storage: $2.99 per month. Your subscription renews on 1 October.\nTo manage or cancel it, go to Settings on your iPhone.",
+    "links": [],
+    "tells": [
+      { "type": "trusted-domain", "text": "email.apple.com is part of Apple's real domain", "target": "from", "match": "email.apple.com" },
+      { "type": "expected-activity", "text": "A subscription you already pay for", "target": "body", "match": "Your subscription renews" },
+      { "type": "verifiable-channel", "text": "Points you to Settings on your phone, not a link", "target": "body", "match": "go to Settings on your iPhone" }
+    ]
+  },
+  {
+    "id": 63,
+    "isPhish": false,
+    "difficulty": 3,
+    "category": "legit-notification",
+    "from": { "name": "Google", "address": "no-reply@accounts.google.com" },
+    "subject": "Security alert: new sign-in on Windows",
+    "body": "Hi Alex,\nWe noticed a new sign-in to your Google Account on a Windows device. If this was you, you don't need to do anything. If not, we'll help you secure your account.",
+    "links": [{ "text": "Check activity", "href": "https://myaccount.google.com/notifications" }],
+    "tells": [
+      { "type": "trusted-domain", "text": "accounts.google.com really is Google", "target": "from", "match": "accounts.google.com" },
+      { "type": "matching-link", "text": "The link goes to Google's own site", "target": "link", "match": "myaccount.google.com" },
+      { "type": "no-sensitive-request", "text": "No deadline, and nothing to do if it was you", "target": "body", "match": "you don't need to do anything" }
+    ]
+  },
+  {
+    "id": 64,
+    "isPhish": false,
+    "difficulty": 3,
+    "category": "legit-notification",
+    "from": { "name": "Zoom", "address": "no-reply@zoom.us" },
+    "subject": "Priya Nair has invited you to a Zoom meeting",
+    "body": "Hi Alex,\nPriya Nair is inviting you to a scheduled Zoom meeting.\nTopic: Kestrel Supplies quarterly review\nTime: Thursday, 10:00 AM\nThe invite is also in your Outlook calendar.",
+    "links": [{ "text": "Join Zoom meeting", "href": "https://brightwell.zoom.us/j/84912345678" }],
+    "tells": [
+      { "type": "trusted-domain", "text": "zoom.us really is Zoom's domain: an unusual ending isn't always fake", "target": "from", "match": "zoom.us" },
+      { "type": "matching-link", "text": "The link stays on zoom.us", "target": "link", "match": "zoom.us/j/" },
+      { "type": "verifiable-channel", "text": "You can check it in your own calendar", "target": "body", "match": "also in your Outlook calendar" }
+    ]
+  }
+]

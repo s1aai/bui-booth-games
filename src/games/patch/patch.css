@@ -1,0 +1,401 @@
+/* ---------- Patch Panic ---------- */
+
+/* Portrait and narrow screens: the board, then the legend under it. */
+.patch {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(0.75rem, 2vh, 1.5rem);
+  width: 100%;
+  min-height: 0;
+  padding: clamp(0.75rem, 2vh, 2rem) var(--gutter);
+}
+
+/* The board takes whatever room is left and fits a 4:3 grid inside it. */
+.patch__board {
+  flex: 1;
+  min-height: 0;
+  display: grid;
+  place-items: center;
+  container-type: size;
+}
+
+.patch__grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-rows: repeat(3, minmax(0, 1fr));
+  gap: clamp(0.5rem, 1.5vmin, 1.25rem);
+  width: min(100cqw, 133.33cqh);
+  aspect-ratio: 4 / 3;
+}
+
+.patch--over .patch__grid {
+  opacity: 0.8;
+}
+
+/* ---------- A server ---------- */
+
+.server {
+  --sev: var(--color-border);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.3rem;
+  min-width: 0;
+  min-height: 0;
+  padding: 0.6rem;
+  border: 4px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background: var(--color-bg-raised);
+  color: var(--color-text);
+  font: inherit;
+  cursor: pointer;
+  touch-action: manipulation;
+  container-type: size;
+  transition: transform 80ms ease;
+}
+
+.server:active {
+  transform: scale(0.97);
+}
+
+.server:focus-visible {
+  outline: 4px solid var(--color-text);
+  outline-offset: 3px;
+}
+
+.server--critical {
+  --sev: var(--color-bad);
+}
+
+.server--high {
+  --sev: var(--color-warning);
+}
+
+.server--low {
+  --sev: var(--color-info);
+}
+
+.server--critical,
+.server--high,
+.server--low {
+  border-color: var(--sev);
+  background: color-mix(in srgb, var(--sev) 14%, var(--color-bg-raised));
+}
+
+/* A Critical sounds the alarm the whole time: missing one is game over. */
+.server--critical {
+  animation: server-alarm 0.7s ease-in-out infinite alternate;
+}
+
+/* The last 30% of the countdown: the border pulses. */
+.server--urgent {
+  animation: server-urgent 0.4s ease-in-out infinite alternate;
+}
+
+/* A Critical near the end does both. */
+.server--critical.server--urgent {
+  animation:
+    server-alarm 0.7s ease-in-out infinite alternate,
+    server-urgent 0.4s ease-in-out infinite alternate;
+}
+
+/* Reduced motion stops the pulsing, so the alarm and the last stretch show as a steady glow and border instead. */
+@media (prefers-reduced-motion: reduce) {
+  .server--critical {
+    box-shadow: 0 0 0 6px color-mix(in srgb, var(--color-bad) 55%, transparent);
+  }
+
+  .server--urgent {
+    border-color: var(--color-text);
+  }
+}
+
+.server__key {
+  position: absolute;
+  top: 0.4rem;
+  left: 0.7rem;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--color-text-muted);
+}
+
+.server__art {
+  flex: 1 1 0;
+  min-height: 0;
+  width: 100%;
+  overflow: visible;
+}
+
+.server__ring-track {
+  fill: none;
+  stroke: var(--color-border);
+  stroke-width: 7;
+}
+
+.server__ring {
+  fill: none;
+  stroke: var(--sev);
+  stroke-width: 7;
+  stroke-linecap: round;
+}
+
+.server__box rect {
+  fill: var(--color-bg);
+  stroke: var(--color-text-muted);
+  stroke-width: 3;
+}
+
+.server__led {
+  fill: var(--color-good);
+}
+
+.server--critical .server__led,
+.server--high .server__led,
+.server--low .server__led {
+  fill: var(--sev);
+}
+
+.server__vent {
+  stroke: var(--color-text-muted);
+  stroke-width: 3;
+  stroke-linecap: round;
+}
+
+.server__name {
+  font-size: min(1.6rem, 14cqw);
+  font-weight: 800;
+  line-height: 1.1;
+}
+
+.server__status {
+  display: flex;
+  justify-content: center;
+  min-height: 2rem;
+}
+
+.server__ok {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--color-text-muted);
+}
+
+.server__vuln {
+  max-width: 100%;
+  overflow: hidden;
+  font-size: 1.1rem;
+  font-weight: 600;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+/* "+200", "Strike!" or "−10" over the server for a moment. */
+.server__flash {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.3em;
+  border-radius: calc(var(--radius-lg) - 4px);
+  font-size: min(2.6rem, 15cqw);
+  font-weight: 800;
+  pointer-events: none;
+  animation: pop-in 160ms ease-out;
+}
+
+.server__flash--patched {
+  background: color-mix(in srgb, var(--color-good) 88%, transparent);
+  color: var(--color-on-good);
+}
+
+.server__flash--exploited {
+  background: color-mix(in srgb, var(--color-bad) 90%, transparent);
+  color: var(--color-on-bad);
+  text-transform: uppercase;
+}
+
+.server__flash--miss {
+  align-items: flex-start;
+  justify-content: flex-end;
+  padding: 0.4rem 0.8rem;
+  font-size: 1.6rem;
+  color: var(--color-text-muted);
+}
+
+/* Small tiles (short screens, phones): drop the vulnerability's name and the key hint. */
+@container (max-height: 150px) {
+  .server__vuln,
+  .server__key {
+    display: none;
+  }
+
+  .server__name {
+    font-size: 1.2rem;
+  }
+}
+
+@container (max-height: 100px) {
+  .server__art,
+  .server .sev .icon {
+    display: none;
+  }
+
+  .server__status {
+    min-height: 0;
+  }
+
+  .server .sev,
+  .server__ok {
+    padding-inline: 0.4em;
+    font-size: 0.8rem;
+    letter-spacing: 0;
+  }
+}
+
+/* Phones: thinner tiles, so the name and badge fit. */
+@media (max-width: 640px) {
+  .server {
+    padding: 0.25rem;
+    border-width: 3px;
+    border-radius: var(--radius-md);
+  }
+}
+
+/* ---------- Severity badge (also on the lessons page) ---------- */
+
+.sev {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3em;
+  padding: 0.15em 0.7em;
+  border-radius: 999px;
+  font-size: 1.1rem;
+  font-weight: 800;
+  line-height: 1.3;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  white-space: nowrap;
+}
+
+.sev--critical {
+  background: var(--color-bad);
+  color: var(--color-on-bad);
+}
+
+.sev--high {
+  background: var(--color-warning);
+  color: var(--color-on-warning);
+}
+
+.sev--low {
+  background: var(--color-info);
+  color: var(--color-on-info);
+}
+
+.lesson__visual .sev {
+  min-width: 9rem;
+  justify-content: center;
+  font-size: var(--text-sm);
+}
+
+/* ---------- Legend ---------- */
+
+.patch__legend {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem 1.5rem;
+}
+
+.patch__legend-title {
+  font-size: var(--text-md);
+}
+
+.patch__legend-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.5rem 1.25rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.patch__legend-list li {
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+  font-size: var(--text-sm);
+}
+
+.patch__legend-points {
+  font-weight: 800;
+}
+
+.patch__legend-rule {
+  color: var(--color-text-muted);
+}
+
+.patch__clock {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3em;
+  font-size: var(--text-lg);
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  color: var(--color-text-muted);
+}
+
+/* Landscape screens (the booth display): the legend in a column beside the board. */
+@media (orientation: landscape) and (min-aspect-ratio: 4/3) {
+  .patch {
+    flex-direction: row;
+    align-items: stretch;
+  }
+
+  .patch__legend {
+    flex: none;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: center;
+    gap: 1.5rem;
+    width: 22rem;
+  }
+
+  .patch__legend-list {
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+
+  .patch__legend-list li {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 0.2em 0.75em;
+  }
+
+  .patch__legend-rule {
+    grid-column: 2;
+  }
+
+  .patch__legend-list .sev {
+    grid-row: span 2;
+    justify-content: center;
+    min-width: 8.5rem;
+  }
+}
+
+@keyframes server-alarm {
+  to {
+    box-shadow: 0 0 0 6px color-mix(in srgb, var(--color-bad) 55%, transparent);
+  }
+}
+
+@keyframes server-urgent {
+  to {
+    border-color: var(--color-text);
+  }
+}

@@ -1,0 +1,98 @@
+/* ---------- Byte Guard ---------- */
+
+/* Full screen: the hint line on top and the play field filling the room under it, in one colour, so there is no
+   card edge. */
+.bb {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  min-height: 0;
+  background: var(--game-board);
+}
+
+.bb__hint {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35em;
+  padding: clamp(0.4rem, 1.2vh, 0.8rem) var(--gutter);
+  border-bottom: 1px solid var(--game-board-line);
+  font-size: var(--text-sm);
+  color: var(--game-mist);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+/* Keys on a mouse-and-keyboard screen, fingers on a touchscreen. */
+.bb__hint-keys {
+  display: contents;
+}
+
+.bb__hint-touch {
+  display: none;
+}
+
+@media (pointer: coarse) {
+  .bb__hint-keys {
+    display: none;
+  }
+
+  .bb__hint-touch {
+    display: inline;
+  }
+}
+
+/* The canvas takes all the room left over. It sits on top of the field rather than in its flow, so its size never
+   feeds back into the field's; the game sizes the world to the field (see draw.ts). */
+.bb__board {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+}
+
+.bb__board--over {
+  opacity: 0.8;
+}
+
+.bb__canvas {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  touch-action: none;
+  cursor: crosshair;
+  user-select: none;
+}
+
+.bb__overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  padding: 1.25rem;
+  text-align: center;
+  background: color-mix(in srgb, var(--color-bg-raised) 88%, transparent);
+}
+
+.bb__overlay-title {
+  font-size: var(--text-lg);
+  color: var(--color-text);
+}
+
+.bb__overlay-note {
+  max-width: 30ch;
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+}
+
+/* Lessons page: the kind's name, on its own line with the text under it. */
+.bb-lesson__tag {
+  font-family: var(--font-mono);
+  color: var(--color-text);
+}

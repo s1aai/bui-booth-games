@@ -1,0 +1,165 @@
+/* ---------- Password Python ---------- */
+
+/* Full screen: the strip on top, the board filling the room under it, the steering at the bottom. The board and
+   the room around it share one colour, so there is no card edge. */
+.py {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  min-height: 0;
+  background: var(--game-board);
+  color: var(--game-paper);
+}
+
+/* The canvas takes all the room left over. It sits on top of the stage rather than in its flow, so its size never
+   feeds back into the stage's; the game sizes the board to the stage (see draw.ts). */
+.py__stage {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+}
+
+.py__stage--over {
+  opacity: 0.8;
+}
+
+.py__canvas {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  touch-action: none;
+  user-select: none;
+}
+
+.py__overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  padding: 1.25rem;
+  text-align: center;
+  background: color-mix(in srgb, var(--color-bg-raised) 88%, transparent);
+}
+
+.py__overlay-title {
+  font-size: var(--text-lg);
+  color: var(--color-text);
+}
+
+.py__overlay-note {
+  max-width: 30ch;
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+}
+
+.py__controls {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.6rem;
+  padding: clamp(0.5rem, 1.5vh, 0.9rem) var(--gutter) clamp(0.6rem, 1.8vh, 1.1rem);
+  border-top: 1px solid var(--game-board-line);
+}
+
+/* Steering buttons: a cross of four round buttons, like Claw's. */
+.py__pad {
+  display: grid;
+  grid-template-columns: repeat(3, auto);
+  grid-template-rows: repeat(2, auto);
+  gap: 0.35rem;
+  justify-content: center;
+}
+
+.py-btn {
+  display: grid;
+  place-items: center;
+  width: calc(var(--tap-min) * 0.9);
+  height: calc(var(--tap-min) * 0.9);
+  padding: 0;
+  border: 3px solid var(--game-slate);
+  border-radius: 50%;
+  background: var(--game-band);
+  color: var(--game-paper);
+  font-size: var(--text-lg);
+  cursor: pointer;
+  touch-action: manipulation;
+  user-select: none;
+}
+
+.py-btn:active {
+  border-color: var(--game-accent);
+  transform: scale(0.95);
+}
+
+.py-btn:focus-visible {
+  outline: 4px solid var(--game-paper);
+  outline-offset: 3px;
+}
+
+.py-btn--up {
+  grid-column: 2;
+  grid-row: 1;
+}
+
+.py-btn--left {
+  grid-column: 1;
+  grid-row: 2;
+}
+
+.py-btn--right {
+  grid-column: 3;
+  grid-row: 2;
+}
+
+.py-btn--down {
+  grid-column: 2;
+  grid-row: 2;
+}
+
+.py-btn--up .icon {
+  transform: rotate(-90deg);
+}
+
+.py-btn--down .icon {
+  transform: rotate(90deg);
+}
+
+.py__how {
+  margin: 0;
+  font-size: var(--text-sm);
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--game-mist);
+}
+
+.py__how strong {
+  color: var(--game-paper);
+}
+
+/* Keys on a mouse-and-keyboard screen, fingers on a touchscreen. */
+.py__how--touch {
+  display: none;
+}
+
+@media (pointer: coarse) {
+  .py__how--keys {
+    display: none;
+  }
+
+  .py__how--touch {
+    display: block;
+  }
+}
+
+@media (min-width: 900px) and (pointer: fine) {
+  .py__pad {
+    display: none;
+  }
+}
